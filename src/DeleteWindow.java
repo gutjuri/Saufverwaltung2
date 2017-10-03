@@ -32,6 +32,8 @@ public class DeleteWindow extends Stage {
 
 	public DeleteWindow(DbConnection dbcon, RefreshingTable tab) {
 		GridPane mainBox = new GridPane();
+		Scene sc = new Scene(mainBox, 350, 140);
+		sc.getStylesheets().add((getClass().getResource("application.css").toString()));
 
 		mainBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
 		mainBox.setPadding(new Insets(25, 25, 25, 25));
@@ -51,7 +53,7 @@ public class DeleteWindow extends Stage {
 
 		Button fertig = new Button("Löschen");
 		fertig.setPrefSize(150, 20);
-		fertig.setStyle("-fx-base: #ff0000;");
+		fertig.getStyleClass().add("deleteButton");
 		fertig.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -92,7 +94,6 @@ public class DeleteWindow extends Stage {
 		buttons.setAlignment(Pos.BOTTOM_CENTER);
 		buttons.setSpacing(10);
 
-		Scene sc = new Scene(mainBox, 350, 140);
 		this.setTitle("Mitglied löschen");
 		this.setScene(sc);
 		this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));

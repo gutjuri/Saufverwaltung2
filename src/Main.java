@@ -57,16 +57,14 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		BorderPane bpane = new BorderPane();
-		// System.out.println(getClass().getResource("/icon.png"));
-		icon = new Image(getClass().getResourceAsStream("/icon.png"));
+		Scene sc = new Scene(bpane, 1000, 600);
+		sc.getStylesheets().add((getClass().getResource("application.css").toString()));
+		icon = new Image(getClass().getResourceAsStream("icon.png"));
 		RefreshingTable mid = addTableView();
 		VBox vbox = addVbox(primaryStage, mid);
 		bpane.setLeft(vbox);
 		bpane.setCenter(mid);
 
-		// StackPane root = new StackPane();
-		// root.getChildren().add(bpane);
-		Scene sc = new Scene(bpane, 1000, 600);
 		primaryStage.setTitle("Saufverwaltung V2");
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 

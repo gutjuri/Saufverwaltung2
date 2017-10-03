@@ -29,6 +29,8 @@ public class AddMemberWindow extends Stage {
 
 	public AddMemberWindow(DbConnection dbcon, RefreshingTable tab) {
 		GridPane mainBox = new GridPane();
+		Scene sc = new Scene(mainBox, 350, 200);
+		sc.getStylesheets().add((getClass().getResource("application.css").toString()));
 
 		mainBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
 		mainBox.setPadding(new Insets(25, 25, 25, 25));
@@ -98,13 +100,12 @@ public class AddMemberWindow extends Stage {
 			}
 		});
 
-		fertig.setStyle("-fx-base: #008800;");
+		fertig.getStyleClass().add("addButton");
 		h1.setAlignment(Pos.BOTTOM_CENTER);
 		h1.getChildren().addAll(fertig, cancel);
 		h1.setSpacing(10);
 		mainBox.add(h1, 0, 3);
 
-		Scene sc = new Scene(mainBox, 350, 200);
 		this.setTitle("Abbuchen");
 		this.setScene(sc);
 		this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
