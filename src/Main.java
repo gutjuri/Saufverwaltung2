@@ -20,7 +20,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -60,7 +59,7 @@ public class Main extends Application {
 		BorderPane bpane = new BorderPane();
 		// System.out.println(getClass().getResource("/icon.png"));
 		icon = new Image(getClass().getResourceAsStream("/icon.png"));
-		TableView<Member> mid = addTableView();
+		RefreshingTable mid = addTableView();
 		VBox vbox = addVbox(primaryStage, mid);
 		bpane.setLeft(vbox);
 		bpane.setCenter(mid);
@@ -82,9 +81,9 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 
-	TableView<Member> addTableView() {
+	RefreshingTable addTableView() {
 
-		TableView<Member> retTabView = new RefreshingTable(dbcon);
+		RefreshingTable retTabView = new RefreshingTable(dbcon);
 		TableColumn<Member, String> colName = new TableColumn<>("Name");
 		colName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		TableColumn<Member, String> colGuth = new TableColumn<>("Guthaben");
@@ -199,7 +198,7 @@ public class Main extends Application {
 		return retTabView;
 	}
 
-	VBox addVbox(Stage primaryStage, TableView<Member> tab) {
+	VBox addVbox(Stage primaryStage, RefreshingTable tab) {
 		VBox vbox = new VBox();
 
 		vbox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));

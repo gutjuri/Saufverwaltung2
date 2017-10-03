@@ -7,7 +7,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -28,7 +27,7 @@ import javafx.stage.Stage;
  */
 public class AddMemberWindow extends Stage {
 
-	public AddMemberWindow(DbConnection dbcon, TableView<Member> tab) {
+	public AddMemberWindow(DbConnection dbcon, RefreshingTable tab) {
 		GridPane mainBox = new GridPane();
 
 		mainBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
@@ -68,7 +67,7 @@ public class AddMemberWindow extends Stage {
 					}
 					double startGh = Double.parseDouble(gtext);
 					dbcon.createMember(name, startGh);
-					tab.refresh();
+					tab.refreshFull();
 					close();
 
 				} catch (NumberFormatException e) {

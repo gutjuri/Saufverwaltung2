@@ -10,7 +10,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -31,7 +30,7 @@ import javafx.stage.Stage;
  */
 public class DeleteWindow extends Stage {
 
-	public DeleteWindow(DbConnection dbcon, TableView<Member> tab) {
+	public DeleteWindow(DbConnection dbcon, RefreshingTable tab) {
 		GridPane mainBox = new GridPane();
 
 		mainBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
@@ -60,8 +59,11 @@ public class DeleteWindow extends Stage {
 
 				String name = betrFeld.getText().trim();
 				try {
+					if (!dbcon.doesMemberExist(name)) {
+						throw new SQLException();
+					}
 					dbcon.deleteMember(name);
-					tab.refresh();
+					tab.refreshFull();
 					close();
 				} catch (SQLException e) {
 					Alert alert = new Alert(AlertType.ERROR);

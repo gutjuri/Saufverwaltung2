@@ -15,8 +15,7 @@ public class RefreshingTable extends TableView<Member> {
 		this.setItems(obslist);
 	}
 
-	@Override
-	public void refresh() {
+	public void refreshFull() {
 		refreshObsList();
 		this.setItems(obslist);
 		super.refresh();
