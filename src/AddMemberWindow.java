@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -27,7 +28,7 @@ import javafx.stage.Stage;
  */
 public class AddMemberWindow extends Stage {
 
-	public AddMemberWindow(DbConnection dbcon) {
+	public AddMemberWindow(DbConnection dbcon, TableView<Member> tab) {
 		GridPane mainBox = new GridPane();
 
 		mainBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
@@ -67,11 +68,7 @@ public class AddMemberWindow extends Stage {
 					}
 					double startGh = Double.parseDouble(gtext);
 					dbcon.createMember(name, startGh);
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("Neustart vornöten");
-					alert.setHeaderText("It's not a bug, it's a feature!");
-					alert.setContentText("Programm muss neu gestartet werden, damit das Mitglied angezeigt wird.");
-					alert.showAndWait();
+					tab.refresh();
 					close();
 
 				} catch (NumberFormatException e) {

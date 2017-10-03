@@ -60,8 +60,8 @@ public class Main extends Application {
 		BorderPane bpane = new BorderPane();
 		// System.out.println(getClass().getResource("/icon.png"));
 		icon = new Image(getClass().getResourceAsStream("/icon.png"));
-		VBox vbox = addVbox(primaryStage);
 		TableView<Member> mid = addTableView();
+		VBox vbox = addVbox(primaryStage, mid);
 		bpane.setLeft(vbox);
 		bpane.setCenter(mid);
 
@@ -83,20 +83,8 @@ public class Main extends Application {
 	}
 
 	TableView<Member> addTableView() {
-		ObservableList<Member> obslist = null;
-		try {
-			obslist = FXCollections.observableArrayList(dbcon.getMembers());
-		} catch (SQLException e) {
-			dbcon.makeNewMembersTable();
-			try {
-				obslist = FXCollections.observableArrayList(dbcon.getMembers());
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
 
-		TableView<Member> retTabView = new TableView<>(obslist);
+		TableView<Member> retTabView = new RefreshingTable(dbcon);
 		TableColumn<Member, String> colName = new TableColumn<>("Name");
 		colName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		TableColumn<Member, String> colGuth = new TableColumn<>("Guthaben");
@@ -211,7 +199,7 @@ public class Main extends Application {
 		return retTabView;
 	}
 
-	VBox addVbox(Stage primaryStage) {
+	VBox addVbox(Stage primaryStage, TableView<Member> tab) {
 		VBox vbox = new VBox();
 
 		vbox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
@@ -245,7 +233,7 @@ public class Main extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				new DeleteWindow(dbcon);
+				new DeleteWindow(dbcon, tab);
 			}
 		});
 
@@ -255,7 +243,7 @@ public class Main extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				new AddMemberWindow(dbcon);
+				new AddMemberWindow(dbcon, tab);
 			}
 		});
 
@@ -317,7 +305,7 @@ public class Main extends Application {
 			// + "/data/strichliste.txt";
 			// String path = pa.toString()+"/data/strichliste.txt");
 			path = "/data/strichliste.txt";
-			System.out.println(path);
+			// System.out.println(path);
 			BufferedWriter w = new BufferedWriter(new FileWriter(path));
 			w.write("Strichliste:\t \t \t \t \t \t \t   " + dateString);
 			w.newLine();

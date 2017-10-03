@@ -1,5 +1,4 @@
 
-
 import java.sql.SQLException;
 
 import javafx.event.ActionEvent;
@@ -11,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -31,7 +31,7 @@ import javafx.stage.Stage;
  */
 public class DeleteWindow extends Stage {
 
-	public DeleteWindow(DbConnection dbcon) {
+	public DeleteWindow(DbConnection dbcon, TableView<Member> tab) {
 		GridPane mainBox = new GridPane();
 
 		mainBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
@@ -61,12 +61,7 @@ public class DeleteWindow extends Stage {
 				String name = betrFeld.getText().trim();
 				try {
 					dbcon.deleteMember(name);
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("Neustart vornöten");
-					alert.setHeaderText("It's not a bug, it's a feature!");
-					alert.setContentText(
-							"Programm muss neu gestartet werden, damit das Mitglied nicht mehr angezeigt wird.");
-					alert.showAndWait();
+					tab.refresh();
 					close();
 				} catch (SQLException e) {
 					Alert alert = new Alert(AlertType.ERROR);
