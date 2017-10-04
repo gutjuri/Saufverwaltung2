@@ -82,7 +82,7 @@ public class Impressum extends Stage {
 			@Override
 			public void handle(MouseEvent event) {
 				if (i++ % 2 == 0) {
-					label.setText(Main.msg.getString("onbugs"));
+					label.setText(Main.msg.getString("onbugs") + " -> juri.dispan@me.com");
 				} else {
 					label.setText("by Juri Dispan 2017");
 				}
