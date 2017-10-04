@@ -1,5 +1,4 @@
 
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -301,6 +300,19 @@ public class DbConnection {
 			closeConnection();
 		}
 		return retList;
+	}
+
+	public void renameUser(String oldname, String newname) {
+		openConnection();
+		try {
+			st = con.prepareStatement("UPDATE mitglieder SET name = ? WHERE name = ?");
+			st.setString(1, newname);
+			st.setString(2, oldname);
+			st.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		closeConnection();
 	}
 
 	/**

@@ -1,5 +1,4 @@
 
-
 public class Member {
 	private String name;
 	private double guthaben;
@@ -58,5 +57,9 @@ public class Member {
 
 	public void toggleVisible() {
 		this.visible = !this.isVisible();
+	}
+
+	public String toString() {
+		return this.name;
 	}
 }

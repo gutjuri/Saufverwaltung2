@@ -244,6 +244,16 @@ public class Main extends Application {
 			}
 		});
 
+		Button renameMember = new Button("Mitglied umbenennen");
+		renameMember.setPrefSize(150, 20);
+		renameMember.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				new RenameWindow(dbcon, tab);
+			}
+		});
+
 		Button open = new Button("Liste öffnen");
 		open.setPrefSize(150, 20);
 		open.setOnAction(new EventHandler<ActionEvent>() {
@@ -266,7 +276,7 @@ public class Main extends Application {
 			}
 		});
 
-		vbox.getChildren().addAll(addMember, del, impr, open, saveexit);
+		vbox.getChildren().addAll(addMember, del, renameMember, impr, open, saveexit);
 		return vbox;
 	}
 
@@ -290,17 +300,6 @@ public class Main extends Application {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			// path = tmp.toString().replace("icon.png", "").replace("jar:",
-			// "");
-			// Path pa =
-			// Paths.get(tmp.toString().replace("Saufverwaltung2.jar!",
-			// "").replace("/icon.png", "")
-			// .replace("jar:", "").replace("file:", "").replace("/C:", ""));
-			// path = pa.getRoot().toAbsolutePath().toString().replace("\\", "")
-			// + pa.toString().replace("\\", "/")
-			// + "/data/strichliste.txt";
-			// String path = pa.toString()+"/data/strichliste.txt");
 			path = "/data/strichliste.txt";
 			// System.out.println(path);
 			BufferedWriter w = new BufferedWriter(new FileWriter(path));
