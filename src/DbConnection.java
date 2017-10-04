@@ -33,24 +33,8 @@ public class DbConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// path = tmp.toString().replace("icon.png", "").replace("jar:", "");
-		// System.out.println(tmp);
-		// Path pa = Paths.get(tmp.toString().replace("Saufverwaltung2.jar!",
-		// "").replace("/icon.png", "")
-		// .replace("jar:", "").replace("file:", "").replace("/C:", ""));
-		// System.out.println(pa.toString().replace("\\", "/"));
-		// pa = pa.getParent();
-		// pa = pa.getParent();
-		// System.out.println(pa.getRoot().toAbsolutePath());
-
-		// url = "jdbc:hsqldb:file:" +
-		// pa.getRoot().toAbsolutePath().toString().replace("\\", "")
-		// + pa.toString().replace("\\", "/") + "/data/data.db";
 		url = "jdbc:hsqldb:file:/data/data.db";
 
-		// System.out.println(url);
-		// System.out.println(url);
 		try {
 			Class.forName("org.hsqldb.jdbcDriver");
 		} catch (ClassNotFoundException e1) {
