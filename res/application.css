@@ -5,3 +5,7 @@
 .addButton {
 	-fx-base: #008800;
 }
+
+.combo-box {
+	-fx-alignment: center;
+}

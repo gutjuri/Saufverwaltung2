@@ -20,6 +20,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -258,6 +259,30 @@ public class Main extends Application {
 			public void handle(ActionEvent event) {
 				new RenameWindow(dbcon, tab);
 			}
+		});
+
+		ComboBox<String> changelang = new ComboBox<>(FXCollections.observableArrayList("Deutsch", "English"));
+		changelang.setPromptText(msg.getString("lang"));
+		changelang.setPrefSize(150, 20);
+		changelang.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				switch (changelang.getValue()) {
+				case "Deutsch":
+					lang = "de";
+					country = "DE";
+					break;
+				case "English":
+					lang = "en";
+					country = "UK";
+					break;
+				}
+				Locale loc = new Locale(lang, country);
+				msg = ResourceBundle.getBundle("MsgBundle", loc);
+
+			}
+
 		});
 
 		Button open = new Button(msg.getString("openlist"));
