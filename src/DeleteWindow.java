@@ -40,17 +40,17 @@ public class DeleteWindow extends Stage {
 		mainBox.setHgap(10);
 		mainBox.setVgap(10);
 		mainBox.setMaxWidth(100);
-		Text title = new Text("Mitglied löschen");
+		Text title = new Text(Main.msg.getString("delmember"));
 		title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		mainBox.add(title, 0, 0, 2, 1);
 
-		Label betrag = new Label("Welches Mitglied soll gelöscht werden? ");
-		mainBox.add(betrag, 0, 1);
+		Label dellabel = new Label(Main.msg.getString("whichmem"));
+		mainBox.add(dellabel, 0, 1);
 		TextField betrFeld = new TextField("");
 		mainBox.add(betrFeld, 1, 1);
 		betrFeld.setPrefWidth(100);
 
-		Button fertig = new Button("Löschen");
+		Button fertig = new Button(Main.msg.getString("delete"));
 		fertig.setPrefSize(150, 20);
 		fertig.getStyleClass().add("deleteButton");
 		fertig.setOnAction(new EventHandler<ActionEvent>() {
@@ -68,16 +68,16 @@ public class DeleteWindow extends Stage {
 					close();
 				} catch (SQLException e) {
 					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Nicht gefunden");
-					alert.setHeaderText("Fehler");
-					alert.setContentText("Das Mitglied \"" + name + "\" wurde nicht gefunden.");
+					alert.setTitle(Main.msg.getString("notfound"));
+					alert.setHeaderText(Main.msg.getString("error"));
+					alert.setContentText(Main.msg.getString("notfoundtext").replace("{}", name) + ".");
 					alert.showAndWait();
 					close();
 				}
 			}
 		});
 
-		Button cancel = new Button("Abbrechen");
+		Button cancel = new Button(Main.msg.getString("cancel"));
 		cancel.setPrefSize(150, 20);
 		cancel.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -93,7 +93,7 @@ public class DeleteWindow extends Stage {
 		buttons.setAlignment(Pos.BOTTOM_CENTER);
 		buttons.setSpacing(10);
 
-		this.setTitle("Mitglied löschen");
+		this.setTitle(Main.msg.getString("delmember"));
 		this.setScene(sc);
 		this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
 		this.show();

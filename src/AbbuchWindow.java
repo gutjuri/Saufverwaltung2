@@ -35,22 +35,22 @@ public class AbbuchWindow extends Stage {
 		mainBox.setHgap(10);
 		mainBox.setVgap(10);
 		mainBox.setMaxWidth(100);
-		Text title = new Text("Abbuchen");
+		Text title = new Text(Main.msg.getString("withdraw"));
 		title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		mainBox.add(title, 0, 0, 2, 1);
 
-		Label alk = new Label("Anzahl Alkoholisches:");
+		Label alk = new Label(Main.msg.getString("alccount") + ":");
 		mainBox.add(alk, 0, 1);
 		TextField alkanz = new TextField("0");
 		mainBox.add(alkanz, 1, 1);
 		alkanz.setMaxWidth(100);
-		Label antalk = new Label("Anzahl Antialk:");
+		Label antalk = new Label(Main.msg.getString("aalccount") + ":");
 		mainBox.add(antalk, 0, 2);
 		TextField antalkanz = new TextField("0");
 		antalkanz.setMaxWidth(100);
 		mainBox.add(antalkanz, 1, 2);
 
-		Button fertig = new Button("Fertig");
+		Button fertig = new Button(Main.msg.getString("ok"));
 		fertig.setPrefSize(110, 20);
 		fertig.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -73,7 +73,7 @@ public class AbbuchWindow extends Stage {
 		});
 		fertig.setDefaultButton(true);
 
-		Button cancel = new Button("Abbrechen");
+		Button cancel = new Button(Main.msg.getString("cancel"));
 		cancel.setPrefSize(110, 20);
 		cancel.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -88,7 +88,7 @@ public class AbbuchWindow extends Stage {
 		buttons.getChildren().addAll(fertig, cancel);
 		mainBox.add(buttons, 0, 4);
 		Scene sc = new Scene(mainBox, 350, 200);
-		this.setTitle("Abbuchen");
+		this.setTitle(Main.msg.getString("withdraw"));
 		this.setScene(sc);
 		this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
 		this.show();

@@ -37,17 +37,17 @@ public class EinzahlWindow extends Stage {
 		mainBox.setHgap(10);
 		mainBox.setVgap(10);
 		mainBox.setMaxWidth(100);
-		Text title = new Text("Einzahlen");
+		Text title = new Text(Main.msg.getString("deposit"));
 		title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		mainBox.add(title, 0, 0, 2, 1);
 
-		Label betrag = new Label("Betrag: (€) ");
+		Label betrag = new Label(Main.msg.getString("amount") + ": (€) ");
 		mainBox.add(betrag, 0, 1);
 		TextField betrFeld = new TextField("0");
 		mainBox.add(betrFeld, 1, 1);
 		betrFeld.setPrefWidth(100);
 
-		Button fertig = new Button("Fertig");
+		Button fertig = new Button(Main.msg.getString("ok"));
 		fertig.setPrefSize(110, 20);
 		fertig.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -68,7 +68,7 @@ public class EinzahlWindow extends Stage {
 		});
 		fertig.setDefaultButton(true);
 
-		Button cancel = new Button("Abbrechen");
+		Button cancel = new Button(Main.msg.getString("cancel"));
 		cancel.setPrefSize(110, 20);
 		cancel.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -94,9 +94,9 @@ public class EinzahlWindow extends Stage {
 
 	public void makeAlert(String inv) {
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Fehler");
-		alert.setHeaderText("\"" + inv + "\" ist keine valide Zahl.");
-		alert.setContentText("Bitte eine valide Zahl eingeben.");
+		alert.setTitle(Main.msg.getString("error"));
+		alert.setHeaderText("\"" + inv + "\" " + Main.msg.getString("isnonum") + ".");
+		alert.setContentText(Main.msg.getString("plsnum") + ".");
 		alert.showAndWait();
 	}
 

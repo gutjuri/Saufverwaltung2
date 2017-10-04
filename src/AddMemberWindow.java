@@ -38,15 +38,15 @@ public class AddMemberWindow extends Stage {
 		mainBox.setHgap(10);
 		mainBox.setVgap(10);
 		mainBox.setMaxWidth(100);
-		Text title = new Text("Mitglied hinzufügen");
+		Text title = new Text(Main.msg.getString("addmember"));
 		title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		mainBox.add(title, 0, 0, 2, 1);
 
 		HBox h1 = new HBox();
 
-		Label nameLabel = new Label("Name:");
+		Label nameLabel = new Label(Main.msg.getString("name") + ":");
 		TextField nameFeld = new TextField("");
-		Label startGLabel = new Label("Startguthaben:");
+		Label startGLabel = new Label(Main.msg.getString("startbal") + ":");
 		TextField startGFeld = new TextField("0");
 
 		mainBox.add(nameLabel, 0, 1);
@@ -54,7 +54,7 @@ public class AddMemberWindow extends Stage {
 		mainBox.add(startGLabel, 0, 2);
 		mainBox.add(startGFeld, 1, 2);
 
-		Button fertig = new Button("Fertig");
+		Button fertig = new Button(Main.msg.getString("ok"));
 		fertig.setPrefSize(110, 20);
 		fertig.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -74,23 +74,22 @@ public class AddMemberWindow extends Stage {
 
 				} catch (NumberFormatException e) {
 					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Fehler");
-					alert.setHeaderText("\"" + gtext + "\" ist keine valide Zahl.");
-					alert.setContentText("Bitte eine valide Zahl eingeben.");
+					alert.setTitle(Main.msg.getString("error"));
+					alert.setHeaderText("\"" + gtext + "\"" + Main.msg.getString("isnonum") + ".");
+					alert.setContentText(Main.msg.getString("plsnum") + ".");
 					alert.showAndWait();
 				} catch (IllegalArgumentException e) {
 					Alert nameAlert = new Alert(AlertType.ERROR);
-					nameAlert.setTitle("Fehler");
-					nameAlert.setHeaderText("Name nicht korrekt");
-					nameAlert.setContentText("Bitte einen Namen mit 2 < länge < 8 eingeben.\n"
-							+ "Es darf kein Mitglied mit dem selben Namen existieren.");
+					nameAlert.setTitle(Main.msg.getString("error"));
+					nameAlert.setHeaderText(Main.msg.getString("noname"));
+					nameAlert.setContentText(Main.msg.getString("plsname") + ".");
 					nameAlert.showAndWait();
 				}
 
 			}
 		});
 		fertig.setDefaultButton(true);
-		Button cancel = new Button("Abbrechen");
+		Button cancel = new Button(Main.msg.getString("cancel"));
 		cancel.setPrefSize(110, 20);
 		cancel.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -106,7 +105,7 @@ public class AddMemberWindow extends Stage {
 		h1.setSpacing(10);
 		mainBox.add(h1, 0, 3);
 
-		this.setTitle("Abbuchen");
+		this.setTitle(Main.msg.getString("addmember"));
 		this.setScene(sc);
 		this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
 		this.show();

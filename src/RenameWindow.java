@@ -36,22 +36,22 @@ public class RenameWindow extends Stage {
 		mainBox.setHgap(10);
 		mainBox.setVgap(10);
 		mainBox.setMaxWidth(100);
-		Text title = new Text("Nutzer umbenennen");
+		Text title = new Text(Main.msg.getString("rename"));
 		title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		mainBox.add(title, 0, 0, 2, 1);
 
-		Label labelChoose = new Label("Nutzer wählen:");
+		Label labelChoose = new Label(Main.msg.getString("choose") + ":");
 		mainBox.add(labelChoose, 0, 1);
 		ComboBox<Member> cbox = new ComboBox<>(retTabView.getItems());
 		mainBox.add(cbox, 1, 1);
 		cbox.setMaxWidth(100);
-		Label antalk = new Label("Neuer Name:");
+		Label antalk = new Label(Main.msg.getString("newname") + ":");
 		mainBox.add(antalk, 0, 2);
 		TextField tfield = new TextField();
 		tfield.setMaxWidth(100);
 		mainBox.add(tfield, 1, 2);
 
-		Button fertig = new Button("Fertig");
+		Button fertig = new Button(Main.msg.getString("ok"));
 		fertig.setPrefSize(110, 20);
 		fertig.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -68,7 +68,7 @@ public class RenameWindow extends Stage {
 		});
 		fertig.setDefaultButton(true);
 
-		Button cancel = new Button("Abbrechen");
+		Button cancel = new Button(Main.msg.getString("cancel"));
 		cancel.setPrefSize(110, 20);
 		cancel.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -83,7 +83,7 @@ public class RenameWindow extends Stage {
 		buttons.getChildren().addAll(fertig, cancel);
 		mainBox.add(buttons, 0, 4);
 		Scene sc = new Scene(mainBox, 350, 200);
-		this.setTitle("Nutzer umbenennen");
+		this.setTitle(Main.msg.getString("rename"));
 		this.setScene(sc);
 		this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
 		this.show();

@@ -82,7 +82,7 @@ public class Impressum extends Stage {
 			@Override
 			public void handle(MouseEvent event) {
 				if (i++ % 2 == 0) {
-					label.setText("Bei Bugs: juri.dispan@me.com");
+					label.setText(Main.msg.getString("onbugs"));
 				} else {
 					label.setText("by Juri Dispan 2017");
 				}
@@ -90,7 +90,7 @@ public class Impressum extends Stage {
 			}
 		});
 
-		Button ok = new Button("Ok");
+		Button ok = new Button(Main.msg.getString("ok"));
 		ok.setAlignment(Pos.BOTTOM_CENTER);
 		ok.setPrefSize(500, 20);
 		ok.setOnAction(new EventHandler<ActionEvent>() {
@@ -107,7 +107,7 @@ public class Impressum extends Stage {
 
 		Scene sc = new Scene(bp, 500, 500);
 
-		this.setTitle("Impressum");
+		this.setTitle(Main.msg.getString("impr"));
 		this.setScene(sc);
 		this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
 		this.show();
