@@ -72,7 +72,7 @@ public class RenameWindow extends Stage {
 		Scene sc = new Scene(mainBox, 350, 200);
 		this.setTitle(Main.msg.getString("rename"));
 		this.setScene(sc);
-		this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
+		this.getIcons().add(new Image(getClass().getResourceAsStream("res/icon.png")));
 		this.show();
 
 	}

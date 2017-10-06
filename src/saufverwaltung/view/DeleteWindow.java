@@ -69,7 +69,7 @@ public class DeleteWindow extends Stage {
 
 		this.setTitle(Main.msg.getString("delmember"));
 		this.setScene(sc);
-		this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
+		this.getIcons().add(new Image(getClass().getResourceAsStream("res/icon.png")));
 		this.show();
 
 	}
