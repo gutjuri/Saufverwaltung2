@@ -1,5 +1,5 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+package saufverwaltung.view;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,6 +17,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import saufverwaltung.control.Controller;
+import saufverwaltung.control.Main;
+import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.Member;
 
 /**
  * Dialog zum Abbuchen von Guthaben durch Erwerb von Getränken.
@@ -24,11 +28,12 @@ import javafx.stage.Stage;
  * @author Juri Dispan
  *
  */
-public class AbbuchWindow extends Stage {
+public class WithdrawWindow extends Stage {
+	Controller ctl;
 
-	public AbbuchWindow(Member member, DbConnection dbcon, TableView<Member> retTabView) {
+	public WithdrawWindow(Member member, DbConnection dbcon, TableView<Member> retTabView, Controller ctl) {
+		this.ctl = ctl;
 		GridPane mainBox = new GridPane();
-
 		mainBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
 		mainBox.setPadding(new Insets(25, 25, 25, 25));
 		mainBox.setAlignment(Pos.CENTER);
@@ -52,36 +57,12 @@ public class AbbuchWindow extends Stage {
 
 		Button fertig = new Button(Main.msg.getString("ok"));
 		fertig.setPrefSize(110, 20);
-		fertig.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				try {
-					int _alk = Integer.parseInt(alkanz.getText());
-					int _aalk = Integer.parseInt(antalkanz.getText());
-					dbcon.updateStats(member.getName(), _alk, _aalk);
-					member.setAlk(member.getAlk() + _alk);
-					member.setAntalk(member.getAntalk() + _aalk);
-					member.setGuthaben(member.getGuthaben() - _aalk - (1.5 * _alk));
-					retTabView.refresh();
-					close();
-				} catch (NumberFormatException e) {
-					// TODO Error
-				}
-
-			}
-		});
+		fertig.setOnAction(e -> ctl.updateMemberStats(member, this, alkanz, antalkanz, retTabView));
 		fertig.setDefaultButton(true);
 
 		Button cancel = new Button(Main.msg.getString("cancel"));
 		cancel.setPrefSize(110, 20);
-		cancel.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				close();
-			}
-		});
+		cancel.setOnAction(e -> close());
 
 		HBox buttons = new HBox(10);
 		buttons.setAlignment(Pos.BOTTOM_CENTER);
@@ -90,7 +71,7 @@ public class AbbuchWindow extends Stage {
 		Scene sc = new Scene(mainBox, 350, 200);
 		this.setTitle(Main.msg.getString("withdraw"));
 		this.setScene(sc);
-		this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
+		this.getIcons().add(new Image(getClass().getResourceAsStream("res/icon.png")));
 		this.show();
 
 	}

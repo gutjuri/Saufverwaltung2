@@ -1,3 +1,4 @@
+package saufverwaltung.util;
 
 public class Member {
 	private String name;
