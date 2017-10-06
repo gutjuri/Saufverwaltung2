@@ -1,20 +1,9 @@
-import java.awt.Desktop;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+package saufverwaltung.view;
+
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -31,56 +20,33 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Callback;
+import saufverwaltung.control.Controller;
+import saufverwaltung.control.Main;
+import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.Member;
+import saufverwaltung.util.RefreshingTable;
 
-/**
- * Hauptfenster mit all dem fancy Zeug (v.a. die groﬂe tabelle in der mitte).
- * ‹bernimmt auch das Erstellen des Strichlistenfiles.
- * 
- * @author Juri Dispan
- */
+public class MainWindow extends Stage {
+	Controller ctl;
+	DbConnection dbcon;
+	Image icon;
 
-public class Main extends Application {
-
-	static DbConnection dbcon = null;
-	static Image icon;
-	static String lang = "de";
-	static String country = "DE";
-	public static ResourceBundle msg;
-
-	public static void main(String[] args) {
-		if (args.length == 2) {
-			lang = args[0];
-			country = args[1];
-		}
-		Locale loc = new Locale(lang, country);
-		msg = ResourceBundle.getBundle("MsgBundle", loc);
-		dbcon = new DbConnection();
-		launch(args);
-
-	}
-
-	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public MainWindow(Stage primaryStage, DbConnection dbcon, Controller ctl) {
+		this.dbcon = dbcon;
+		this.ctl = ctl;
 		BorderPane bpane = new BorderPane();
 		Scene sc = new Scene(bpane, 1000, 600);
+		// System.out.println(getClass().getResource("application.css"));
 		sc.getStylesheets().add((getClass().getResource("application.css").toString()));
-		icon = new Image(getClass().getResourceAsStream("icon.png"));
+		icon = new Image(getClass().getResourceAsStream("res/icon.png"));
 		RefreshingTable mid = addTableView();
 		VBox vbox = addVbox(primaryStage, mid);
 		bpane.setLeft(vbox);
 		bpane.setCenter(mid);
 
-		primaryStage.setTitle(msg.getString("appname"));
-		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
-			@Override
-			public void handle(WindowEvent event) {
-				makefile();
-			}
-
-		});
+		primaryStage.setTitle(Main.msg.getString("appname"));
+		primaryStage.setOnCloseRequest(ctl::updateListFile);
 		primaryStage.getIcons().add(icon);
 		primaryStage.setScene(sc);
 		primaryStage.show();
@@ -89,24 +55,24 @@ public class Main extends Application {
 	RefreshingTable addTableView() {
 
 		RefreshingTable retTabView = new RefreshingTable(dbcon);
-		TableColumn<Member, String> colName = new TableColumn<>(msg.getString("name"));
+		TableColumn<Member, String> colName = new TableColumn<>(Main.msg.getString("name"));
 		colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-		TableColumn<Member, String> colGuth = new TableColumn<>(msg.getString("balance"));
+		TableColumn<Member, String> colGuth = new TableColumn<>(Main.msg.getString("balance"));
 		colGuth.setCellValueFactory(new PropertyValueFactory<>("guthaben"));
-		TableColumn<Member, String> colAlk = new TableColumn<>(msg.getString("booze"));
+		TableColumn<Member, String> colAlk = new TableColumn<>(Main.msg.getString("booze"));
 		colAlk.setCellValueFactory(new PropertyValueFactory<>("alk"));
-		TableColumn<Member, String> colAntalk = new TableColumn<>(msg.getString("nonalcoholics"));
+		TableColumn<Member, String> colAntalk = new TableColumn<>(Main.msg.getString("nonalcoholics"));
 		colAntalk.setCellValueFactory(new PropertyValueFactory<>("antalk"));
-		TableColumn<Member, String> colVisible = new TableColumn<>(msg.getString("visible"));
+		TableColumn<Member, String> colVisible = new TableColumn<>(Main.msg.getString("visible"));
 		colVisible.setCellValueFactory(new PropertyValueFactory<>("visible"));
 
-		TableColumn colEinzahlButton = new TableColumn(msg.getString("deposit"));
+		TableColumn colEinzahlButton = new TableColumn(Main.msg.getString("deposit"));
 		colEinzahlButton.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
-		TableColumn colTrinkButton = new TableColumn(msg.getString("withdraw"));
+		TableColumn colTrinkButton = new TableColumn(Main.msg.getString("withdraw"));
 		colTrinkButton.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
-		TableColumn colVisButton = new TableColumn(msg.getString("chvis"));
+		TableColumn colVisButton = new TableColumn(Main.msg.getString("chvis"));
 		colVisButton.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
 		Callback<TableColumn<Member, String>, TableCell<Member, String>> cellFactory = new Callback<TableColumn<Member, String>, TableCell<Member, String>>() {
@@ -114,7 +80,7 @@ public class Main extends Application {
 			public TableCell call(final TableColumn<Member, String> param) {
 				final TableCell<Member, String> cell = new TableCell<Member, String>() {
 
-					final Button btn = new Button(msg.getString("deposit"));
+					final Button btn = new Button(Main.msg.getString("deposit"));
 
 					@Override
 					public void updateItem(String item, boolean empty) {
@@ -125,8 +91,7 @@ public class Main extends Application {
 						} else {
 							btn.setOnAction(event -> {
 								Member person = getTableView().getItems().get(getIndex());
-								new EinzahlWindow(person, dbcon, retTabView);
-
+								new DepositWindow(person, dbcon, retTabView, ctl);
 							});
 							setGraphic(btn);
 							setText(null);
@@ -142,7 +107,7 @@ public class Main extends Application {
 			public TableCell call(final TableColumn<Member, String> param) {
 				final TableCell<Member, String> cell = new TableCell<Member, String>() {
 
-					final Button btn = new Button(msg.getString("withdraw"));
+					final Button btn = new Button(Main.msg.getString("withdraw"));
 
 					@Override
 					public void updateItem(String item, boolean empty) {
@@ -153,7 +118,7 @@ public class Main extends Application {
 						} else {
 							btn.setOnAction(event -> {
 								Member person = getTableView().getItems().get(getIndex());
-								new AbbuchWindow(person, dbcon, retTabView);
+								new WithdrawWindow(person, dbcon, retTabView, ctl);
 
 							});
 							setGraphic(btn);
@@ -170,7 +135,7 @@ public class Main extends Application {
 			public TableCell call(final TableColumn<Member, String> param) {
 				final TableCell<Member, String> cell = new TableCell<Member, String>() {
 
-					final Button btn = new Button(msg.getString("chvis"));
+					final Button btn = new Button(Main.msg.getString("chvis"));
 
 					@Override
 					public void updateItem(String item, boolean empty) {
@@ -210,59 +175,52 @@ public class Main extends Application {
 		vbox.setPadding(new Insets(15, 12, 15, 12));
 		vbox.setSpacing(10);
 
-		Button saveexit = new Button(msg.getString("close"));
+		Button saveexit = new Button(Main.msg.getString("close"));
 		saveexit.setPrefSize(150, 20);
-		saveexit.setOnAction(new EventHandler<ActionEvent>() {
+		saveexit.setOnAction(e -> ctl.updateListFileAndClose(e, primaryStage));
 
-			@Override
-			public void handle(ActionEvent event) {
-				makefile();
-				primaryStage.close();
-			}
-		});
-
-		Button impr = new Button(msg.getString("impr"));
+		Button impr = new Button(Main.msg.getString("impr"));
 		impr.setPrefSize(150, 20);
 		impr.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				new Impressum();
+				new InfoWindow(ctl);
 			}
 		});
 
-		Button del = new Button(msg.getString("delmember"));
+		Button del = new Button(Main.msg.getString("delmember"));
 		del.setPrefSize(150, 20);
 		del.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				new DeleteWindow(dbcon, tab);
+				new DeleteWindow(dbcon, tab, ctl);
 			}
 		});
 
-		Button addMember = new Button(msg.getString("addmember"));
+		Button addMember = new Button(Main.msg.getString("addmember"));
 		addMember.setPrefSize(150, 20);
 		addMember.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				new AddMemberWindow(dbcon, tab);
+				new AddMemberWindow(dbcon, tab, ctl);
 			}
 		});
 
-		Button renameMember = new Button(msg.getString("rename"));
+		Button renameMember = new Button(Main.msg.getString("rename"));
 		renameMember.setPrefSize(150, 20);
 		renameMember.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				new RenameWindow(dbcon, tab);
+				new RenameWindow(dbcon, tab, ctl);
 			}
 		});
 
 		ComboBox<String> changelang = new ComboBox<>(FXCollections.observableArrayList("Deutsch", "English"));
-		changelang.setPromptText(msg.getString("lang"));
+		changelang.setPromptText(Main.msg.getString("lang"));
 		changelang.setPrefSize(150, 20);
 		changelang.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -270,106 +228,26 @@ public class Main extends Application {
 			public void handle(ActionEvent event) {
 				switch (changelang.getValue()) {
 				case "Deutsch":
-					lang = "de";
-					country = "DE";
+					Main.lang = "de";
+					Main.country = "DE";
 					break;
 				case "English":
-					lang = "en";
-					country = "UK";
+					Main.lang = "en";
+					Main.country = "UK";
 					break;
 				}
-				Locale loc = new Locale(lang, country);
-				msg = ResourceBundle.getBundle("MsgBundle", loc);
+				Locale loc = new Locale(Main.lang, Main.country);
+				Main.msg = ResourceBundle.getBundle("MsgBundle", loc);
 
 			}
 
 		});
 
-		Button open = new Button(msg.getString("openlist"));
+		Button open = new Button(Main.msg.getString("openlist"));
 		open.setPrefSize(150, 20);
-		open.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				if (!Desktop.isDesktopSupported())
-					throw new OutOfMemoryError();
-				Desktop desktop = Desktop.getDesktop();
-
-				String path = makefile();
-				File file = new File(path);
-				try {
-					desktop.open(file);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			}
-		});
+		open.setOnAction(ctl::openListFile);
 
 		vbox.getChildren().addAll(addMember, del, renameMember, impr, open, saveexit);
 		return vbox;
 	}
-
-	public String makefile() {
-		ObservableList<Member> obslist = null;
-		try {
-			obslist = FXCollections.observableArrayList(dbcon.getMembers());
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		String path = "";
-		Date date = Calendar.getInstance().getTime(); // Datum
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-		String dateString = dateFormatter.format(date);
-		try {
-			URI tmp = null;
-			try {
-				tmp = getClass().getResource("/icon.png").toURI();
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			path = "/data/strichliste.txt";
-			// System.out.println(path);
-			BufferedWriter w = new BufferedWriter(new FileWriter(path));
-			String listname = msg.getString("list");
-			String boozename = msg.getString("booze");
-			String nbname = msg.getString("nonalcoholics");
-			String blocked = msg.getString("blocked");
-			w.write(listname + ":\t \t \t \t \t \t \t   " + dateString);
-			w.newLine();
-			w.newLine();
-			w.write(msg.getString("name") + ": \t | " + boozename + " (1,50\u20ac)       |     " + nbname
-					+ " (1\u20ac) | " + msg.getString("cap"));
-			w.newLine();
-			w.write("---------+-----------------------------+----------------------------+--------");
-			w.newLine();
-			for (Member cm : obslist) {
-				if (!cm.isVisible()) {
-					continue;
-				}
-				if (cm.getGuthaben() < 0) {
-					w.write(cm.getName() + "\t | " + blocked + " \t \t       | " + blocked + "\t\t    | "
-							+ cm.getGuthaben());
-				} else {
-					w.write(cm.getName() + "\t | \t \t \t       | \t\t\t    | " + cm.getGuthaben());
-				}
-
-				w.newLine();
-				w.write("---------+-----------------------------+----------------------------+--------");
-				w.newLine();
-
-			}
-			w.flush();
-			w.close();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-		return path;
-
-	}
-
 }

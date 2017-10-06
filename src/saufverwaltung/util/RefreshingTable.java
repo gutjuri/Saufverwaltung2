@@ -1,3 +1,4 @@
+package saufverwaltung.util;
 import java.sql.SQLException;
 
 import javafx.collections.FXCollections;

@@ -1,5 +1,5 @@
-import java.net.URI;
-import java.net.URISyntaxException;
+package saufverwaltung.util;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -26,13 +26,7 @@ public class DbConnection {
 	 */
 
 	private boolean openConnection() {
-		URI tmp = null;
-		try {
-			tmp = getClass().getResource("/icon.png").toURI();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		url = "jdbc:hsqldb:file:/data/data.db";
 
 		try {

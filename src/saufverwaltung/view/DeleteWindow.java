@@ -1,12 +1,8 @@
-import java.sql.SQLException;
+package saufverwaltung.view;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,6 +16,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import saufverwaltung.control.Controller;
+import saufverwaltung.control.Main;
+import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.RefreshingTable;
 
 /**
  * Dialog zum Löschen eines Mitgliedes aus der Datenbank.
@@ -28,8 +28,10 @@ import javafx.stage.Stage;
  *
  */
 public class DeleteWindow extends Stage {
+	Controller ctl;
 
-	public DeleteWindow(DbConnection dbcon, RefreshingTable tab) {
+	public DeleteWindow(DbConnection dbcon, RefreshingTable tab, Controller ctl) {
+		this.ctl = ctl;
 		GridPane mainBox = new GridPane();
 		Scene sc = new Scene(mainBox, 350, 140);
 		sc.getStylesheets().add((getClass().getResource("application.css").toString()));
@@ -53,39 +55,11 @@ public class DeleteWindow extends Stage {
 		Button fertig = new Button(Main.msg.getString("delete"));
 		fertig.setPrefSize(150, 20);
 		fertig.getStyleClass().add("deleteButton");
-		fertig.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-
-				String name = betrFeld.getText().trim();
-				try {
-					if (!dbcon.doesMemberExist(name)) {
-						throw new SQLException();
-					}
-					dbcon.deleteMember(name);
-					tab.refreshFull();
-					close();
-				} catch (SQLException e) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle(Main.msg.getString("notfound"));
-					alert.setHeaderText(Main.msg.getString("error"));
-					alert.setContentText(Main.msg.getString("notfoundtext").replace("{}", name) + ".");
-					alert.showAndWait();
-					close();
-				}
-			}
-		});
+		fertig.setOnAction(e -> ctl.handleDeleteMember(this, betrFeld, tab));
 
 		Button cancel = new Button(Main.msg.getString("cancel"));
 		cancel.setPrefSize(150, 20);
-		cancel.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				close();
-			}
-		});
+		cancel.setOnAction(e -> close());
 
 		HBox buttons = new HBox();
 		buttons.getChildren().addAll(fertig, cancel);
@@ -95,7 +69,7 @@ public class DeleteWindow extends Stage {
 
 		this.setTitle(Main.msg.getString("delmember"));
 		this.setScene(sc);
-		this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
+		this.getIcons().add(new Image(getClass().getResourceAsStream("res/icon.png")));
 		this.show();
 
 	}
