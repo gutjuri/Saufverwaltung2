@@ -37,7 +37,7 @@ public class MainWindow extends Stage {
 		this.ctl = ctl;
 		BorderPane bpane = new BorderPane();
 		Scene sc = new Scene(bpane, 1000, 600);
-		System.out.println(getClass().getResource("application.css"));
+		// System.out.println(getClass().getResource("application.css"));
 		sc.getStylesheets().add((getClass().getResource("application.css").toString()));
 		icon = new Image(getClass().getResourceAsStream("res/icon.png"));
 		RefreshingTable mid = addTableView();
