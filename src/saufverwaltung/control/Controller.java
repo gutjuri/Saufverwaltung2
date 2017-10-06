@@ -5,8 +5,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -69,19 +67,11 @@ public class Controller {
 			e1.printStackTrace();
 		}
 		String path = "";
-		Date date = Calendar.getInstance().getTime(); // Datum
+		Date date = Calendar.getInstance().getTime(); // Date
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 		String dateString = dateFormatter.format(date);
 		try {
-			URI tmp = null;
-			try {
-				tmp = getClass().getResource("/icon.png").toURI();
-			} catch (URISyntaxException ex) {
-				// TODO Auto-generated catch block
-				ex.printStackTrace();
-			}
 			path = "/data/strichliste.txt";
-			// System.out.println(path);
 			BufferedWriter w = new BufferedWriter(new FileWriter(path));
 			String listname = msg.getString("list");
 			String boozename = msg.getString("booze");

@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import saufverwaltung.util.DbConnection;
+import saufverwaltung.view.MainWindow;
 
 /**
  * Hauptfenster mit all dem fancy Zeug (v.a. die groﬂe tabelle in der mitte).
@@ -22,6 +23,7 @@ public class Main extends Application {
 	public static String lang = "de";
 	public static String country = "DE";
 	public static ResourceBundle msg;
+	static Controller ctl;
 
 	public static void main(String[] args) {
 		if (args.length == 2) {
@@ -31,13 +33,15 @@ public class Main extends Application {
 		Locale loc = new Locale(lang, country);
 		msg = ResourceBundle.getBundle("MsgBundle", loc);
 		dbcon = new DbConnection();
+		String listpath = "/data/strichliste.txt";
+		ctl = new Controller(msg, dbcon, listpath);
 		launch(args);
 
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
+		new MainWindow(primaryStage, dbcon, ctl);
 	}
 
 }
