@@ -1,10 +1,8 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+package saufverwaltung.view;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -19,18 +17,23 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import saufverwaltung.control.Controller;
+import saufverwaltung.control.Main;
+import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.Member;
 
 /**
- * Dialog zum Einmzahlen von Guthaben.
+ * Dialog zum Einnzahlen von Guthaben.
  * 
  * @author Juri Dispan
  *
  */
-public class EinzahlWindow extends Stage {
+public class DepositWindow extends Stage {
+	Controller ctl;
 
-	public EinzahlWindow(Member member, DbConnection dbcon, TableView<Member> retTabView) {
+	public DepositWindow(Member member, DbConnection dbcon, TableView<Member> retTabView, Controller ctl) {
+		this.ctl = ctl;
 		GridPane mainBox = new GridPane();
-
 		mainBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
 		mainBox.setPadding(new Insets(25, 25, 25, 25));
 		mainBox.setAlignment(Pos.CENTER);
@@ -49,34 +52,12 @@ public class EinzahlWindow extends Stage {
 
 		Button fertig = new Button(Main.msg.getString("ok"));
 		fertig.setPrefSize(110, 20);
-		fertig.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				String str = betrFeld.getText().replaceAll(",", ".");
-				try {
-					double betr = Double.parseDouble(str);
-					dbcon.deposit(member.getName(), betr);
-					member.setGuthaben(member.getGuthaben() + betr);
-					retTabView.refresh();
-					close();
-				} catch (NumberFormatException e) {
-					makeAlert(str);
-				}
-
-			}
-		});
+		fertig.setOnAction(e -> ctl.handleDeposit(this, betrFeld, member, retTabView));
 		fertig.setDefaultButton(true);
 
 		Button cancel = new Button(Main.msg.getString("cancel"));
 		cancel.setPrefSize(110, 20);
-		cancel.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				close();
-			}
-		});
+		cancel.setOnAction(e -> close());
 
 		HBox buttons = new HBox();
 		buttons.getChildren().addAll(fertig, cancel);
@@ -89,15 +70,5 @@ public class EinzahlWindow extends Stage {
 		this.setScene(sc);
 		this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
 		this.show();
-
 	}
-
-	public void makeAlert(String inv) {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle(Main.msg.getString("error"));
-		alert.setHeaderText("\"" + inv + "\" " + Main.msg.getString("isnonum") + ".");
-		alert.setContentText(Main.msg.getString("plsnum") + ".");
-		alert.showAndWait();
-	}
-
 }

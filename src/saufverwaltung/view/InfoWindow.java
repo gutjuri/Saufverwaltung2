@@ -1,7 +1,7 @@
+package saufverwaltung.view;
+
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -11,7 +11,6 @@ import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -23,6 +22,8 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import saufverwaltung.control.Controller;
+import saufverwaltung.control.Main;
 
 /**
  * Nur zum Spaﬂ.
@@ -30,11 +31,12 @@ import javafx.util.Duration;
  * @author Juri Dispan
  *
  */
-public class Impressum extends Stage {
+public class InfoWindow extends Stage {
 	static int i = 0;
+	Controller ctl;
 
-	public Impressum() {
-
+	public InfoWindow(Controller ctl) {
+		this.ctl = ctl;
 		Box box = new Box(4, 4, 4);
 		box.setMaterial(new PhongMaterial(Color.CHARTREUSE));
 		// box.setDrawMode(DrawMode.LINE);
@@ -77,29 +79,15 @@ public class Impressum extends Stage {
 		hb.setAlignment(Pos.TOP_CENTER);
 		label.setScaleX(2);
 		label.setScaleY(2);
-		label.setOnMouseEntered(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				if (i++ % 2 == 0) {
-					label.setText(Main.msg.getString("onbugs") + " -> juri.dispan@me.com");
-				} else {
-					label.setText("by Juri Dispan 2017");
-				}
-
-			}
+		label.setOnMouseEntered(e -> {
+			ctl.handleInfoStateChange(i, label);
+			i++;
 		});
 
 		Button ok = new Button(Main.msg.getString("ok"));
 		ok.setAlignment(Pos.BOTTOM_CENTER);
 		ok.setPrefSize(500, 20);
-		ok.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				close();
-			}
-		});
+		ok.setOnAction(e -> close());
 		ok.setDefaultButton(true);
 		bp.setTop(hb);
 		bp.setBottom(ok);

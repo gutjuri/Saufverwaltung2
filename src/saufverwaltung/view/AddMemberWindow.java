@@ -1,10 +1,8 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+package saufverwaltung.view;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,6 +16,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import saufverwaltung.control.Controller;
+import saufverwaltung.control.Main;
+import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.RefreshingTable;
 
 /**
  * Dialog zum Hinzufügen eines Mitgliedes in die Db.
@@ -27,7 +29,10 @@ import javafx.stage.Stage;
  */
 public class AddMemberWindow extends Stage {
 
-	public AddMemberWindow(DbConnection dbcon, RefreshingTable tab) {
+	Controller ctl;
+
+	public AddMemberWindow(DbConnection dbcon, RefreshingTable tab, Controller ctl) {
+		this.ctl = ctl;
 		GridPane mainBox = new GridPane();
 		Scene sc = new Scene(mainBox, 350, 200);
 		sc.getStylesheets().add((getClass().getResource("application.css").toString()));
@@ -56,48 +61,11 @@ public class AddMemberWindow extends Stage {
 
 		Button fertig = new Button(Main.msg.getString("ok"));
 		fertig.setPrefSize(110, 20);
-		fertig.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				String gtext = startGFeld.getText().replaceAll(",", ".");
-				try {
-
-					String name = nameFeld.getText().trim();
-					if (name.length() > 8 || name.length() < 2 || dbcon.doesMemberExist(name)) {
-						throw new IllegalArgumentException();
-					}
-					double startGh = Double.parseDouble(gtext);
-					dbcon.createMember(name, startGh);
-					tab.refreshFull();
-					close();
-
-				} catch (NumberFormatException e) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle(Main.msg.getString("error"));
-					alert.setHeaderText("\"" + gtext + "\"" + Main.msg.getString("isnonum") + ".");
-					alert.setContentText(Main.msg.getString("plsnum") + ".");
-					alert.showAndWait();
-				} catch (IllegalArgumentException e) {
-					Alert nameAlert = new Alert(AlertType.ERROR);
-					nameAlert.setTitle(Main.msg.getString("error"));
-					nameAlert.setHeaderText(Main.msg.getString("noname"));
-					nameAlert.setContentText(Main.msg.getString("plsname") + ".");
-					nameAlert.showAndWait();
-				}
-
-			}
-		});
+		fertig.setOnAction(e -> ctl.handleAddMember(this, startGFeld, nameFeld, tab));
 		fertig.setDefaultButton(true);
 		Button cancel = new Button(Main.msg.getString("cancel"));
 		cancel.setPrefSize(110, 20);
-		cancel.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				close();
-			}
-		});
+		cancel.setOnAction(e -> close());
 
 		fertig.getStyleClass().add("addButton");
 		h1.setAlignment(Pos.BOTTOM_CENTER);

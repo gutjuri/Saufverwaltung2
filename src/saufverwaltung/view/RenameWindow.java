@@ -1,5 +1,5 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+package saufverwaltung.view;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,6 +18,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import saufverwaltung.control.Controller;
+import saufverwaltung.control.Main;
+import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.Member;
 
 /**
  * Dialog zum Umbenennen eines Nutzers.
@@ -26,10 +30,11 @@ import javafx.stage.Stage;
  *
  */
 public class RenameWindow extends Stage {
+	Controller ctl;
 
-	public RenameWindow(DbConnection dbcon, TableView<Member> retTabView) {
+	public RenameWindow(DbConnection dbcon, TableView<Member> retTabView, Controller ctl) {
+		this.ctl = ctl;
 		GridPane mainBox = new GridPane();
-
 		mainBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
 		mainBox.setPadding(new Insets(25, 25, 25, 25));
 		mainBox.setAlignment(Pos.CENTER);
@@ -53,30 +58,12 @@ public class RenameWindow extends Stage {
 
 		Button fertig = new Button(Main.msg.getString("ok"));
 		fertig.setPrefSize(110, 20);
-		fertig.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				Member cmember = cbox.getValue();
-				String oldname = cmember.getName();
-				String newname = tfield.getText();
-				dbcon.renameUser(oldname, newname);
-				cmember.setName(newname);
-				retTabView.refresh();
-				close();
-			}
-		});
+		fertig.setOnAction(e -> ctl.handleRenameMember(this, cbox, tfield, retTabView));
 		fertig.setDefaultButton(true);
 
 		Button cancel = new Button(Main.msg.getString("cancel"));
 		cancel.setPrefSize(110, 20);
-		cancel.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				close();
-			}
-		});
+		cancel.setOnAction(e -> close());
 
 		HBox buttons = new HBox(10);
 		buttons.setAlignment(Pos.BOTTOM_CENTER);
