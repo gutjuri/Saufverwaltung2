@@ -40,16 +40,20 @@ public class Controller {
 	public void updateMemberStats(Member member, Stage stage, TextField alkanz, TextField antalkanz,
 			TableView<Member> retTabView) {
 		try {
-			int _alk = Integer.parseInt(alkanz.getText());
-			int _aalk = Integer.parseInt(antalkanz.getText());
-			dbcon.updateStats(member.getName(), _alk, _aalk);
-			member.setAlk(member.getAlk() + _alk);
-			member.setAntalk(member.getAntalk() + _aalk);
-			member.setGuthaben(member.getGuthaben() - _aalk - (1.5 * _alk));
+			int alk = Integer.parseInt(alkanz.getText());
+			int aalk = Integer.parseInt(antalkanz.getText());
+			dbcon.updateStats(member.getName(), alk, aalk);
+			member.setAlk(member.getAlk() + alk);
+			member.setAntalk(member.getAntalk() + aalk);
+			member.setGuthaben(member.getGuthaben() - aalk - (1.5 * alk));
 			retTabView.refresh();
 			stage.close();
 		} catch (NumberFormatException e) {
-			// TODO Error
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle(Main.msg.getString("error"));
+			alert.setHeaderText(Main.msg.getString("error"));
+			alert.setContentText(Main.msg.getString("wholenumpls") + ".");
+			alert.showAndWait();
 		}
 	}
 
