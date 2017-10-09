@@ -1,10 +1,10 @@
 package saufverwaltung.control;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.application.Application;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import saufverwaltung.util.DbConnection;
 import saufverwaltung.view.MainWindow;
@@ -19,24 +19,27 @@ import saufverwaltung.view.MainWindow;
 public class Main extends Application {
 
 	static DbConnection dbcon = null;
-	static Image icon;
 	public static String lang = "de";
 	public static String country = "DE";
 	public static ResourceBundle msg;
 	static Controller ctl;
 
 	public static void main(String[] args) {
-		if (args.length == 2) {
-			lang = args[0];
-			country = args[1];
+		launch(args);
+	}
+
+	@Override
+	public void init() {
+		List<String> args = getParameters().getRaw();
+		if (args.size() == 2) {
+			lang = args.get(0);
+			country = args.get(1);
 		}
 		Locale loc = new Locale(lang, country);
 		msg = ResourceBundle.getBundle("MsgBundle", loc);
 		dbcon = new DbConnection();
 		String listpath = "/data/strichliste.txt";
 		ctl = new Controller(msg, dbcon, listpath);
-		launch(args);
-
 	}
 
 	@Override
