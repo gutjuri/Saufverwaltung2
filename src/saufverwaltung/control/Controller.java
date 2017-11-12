@@ -45,7 +45,7 @@ public class Controller {
 			dbcon.updateStats(member.getName(), alk, aalk);
 			member.setAlk(member.getAlk() + alk);
 			member.setAntalk(member.getAntalk() + aalk);
-			member.setGuthaben(member.getGuthaben() - aalk - (1.5 * alk));
+			member.setGuthaben(member.getGuthabenNumeric() - aalk - (1.5 * alk));
 			retTabView.refresh();
 			stage.close();
 		} catch (NumberFormatException e) {
@@ -93,7 +93,7 @@ public class Controller {
 				if (!cm.isVisible()) {
 					continue;
 				}
-				if (cm.getGuthaben() < 0) {
+				if (cm.getGuthabenNumeric() < 0) {
 					w.write(cm.getName() + "\t | " + blocked + " \t \t       | " + blocked + "\t\t    | "
 							+ cm.getGuthaben());
 				} else {
@@ -121,6 +121,7 @@ public class Controller {
 	}
 
 	public void openListFile(ActionEvent e) {
+		updateListFile();
 		if (!Desktop.isDesktopSupported())
 			throw new OutOfMemoryError();
 		Desktop desktop = Desktop.getDesktop();
@@ -196,7 +197,7 @@ public class Controller {
 		try {
 			double betr = Double.parseDouble(str);
 			dbcon.deposit(member.getName(), betr);
-			member.setGuthaben(member.getGuthaben() + betr);
+			member.setGuthaben(member.getGuthabenNumeric() + betr);
 			tab.refresh();
 			stage.close();
 		} catch (NumberFormatException e) {

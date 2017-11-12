@@ -24,8 +24,12 @@ public class Member {
 		this.name = name;
 	}
 
-	public double getGuthaben() {
-		return guthaben;
+	public String getGuthaben() {
+		return String.format("%.2f", getGuthabenNumeric());
+	}
+
+	public double getGuthabenNumeric() {
+		return this.guthaben;
 	}
 
 	public void setGuthaben(double guthaben) {
