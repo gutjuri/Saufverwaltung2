@@ -122,8 +122,12 @@ public class Controller {
 
 	public void openListFile(ActionEvent e) {
 		updateListFile();
-		if (!Desktop.isDesktopSupported())
-			throw new OutOfMemoryError();
+		if (!Desktop.isDesktopSupported()) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle(Main.msg.getString("error"));
+			alert.setContentText(Main.msg.getString("notsup") + ".");
+			alert.showAndWait();
+		}
 		Desktop desktop = Desktop.getDesktop();
 		File file = new File(listpath);
 		try {
