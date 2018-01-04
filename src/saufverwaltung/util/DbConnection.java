@@ -14,14 +14,13 @@ import java.util.List;
  */
 
 public class DbConnection {
-	private String path;
 	private String url;
 	private Connection con = null;
 	private PreparedStatement st = null;
 	private ResultSet rs = null;
 
 	/**
-	 * Eröffnet Verbindung zur DB. Diese muss nach der Datenbankoperation wieder
+	 * Erï¿½ffnet Verbindung zur DB. Diese muss nach der Datenbankoperation wieder
 	 * mit closeConnection() geschlossen werden!!
 	 */
 
@@ -73,7 +72,7 @@ public class DbConnection {
 
 	/**
 	 * Erstellt Mitglied in Datenbank mit spezifiziertem namen und guthaben.
-	 * Geht mal davon aus, dass kein bereits vorhandener name neu hinzugefügt
+	 * Geht mal davon aus, dass kein bereits vorhandener name neu hinzugefï¿½gt
 	 * wird.
 	 *
 	 */
@@ -150,7 +149,7 @@ public class DbConnection {
 	}
 
 	/**
-	 * Löscht Spieler
+	 * Lï¿½scht Spieler
 	 * 
 	 * @param name
 	 * @throws SQLException
@@ -167,7 +166,7 @@ public class DbConnection {
 	}
 
 	/**
-	 * Methode zum Eintragen neu Konsumierter Getränke
+	 * Methode zum Eintragen neu Konsumierter Getrï¿½nke
 	 * 
 	 * @param name
 	 * @param alk
@@ -293,7 +292,7 @@ public class DbConnection {
 	}
 
 	/**
-	 * Schließt die verbindung zur DB.
+	 * Schlieï¿½t die verbindung zur DB.
 	 */
 
 	private boolean closeConnection() {

@@ -1,5 +1,7 @@
 package saufverwaltung.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -53,33 +55,40 @@ public class MainWindow extends Stage {
 	}
 
 	RefreshingTable addTableView() {
-
 		RefreshingTable retTabView = new RefreshingTable(dbcon);
+		List<TableColumn<Member, String>> columns = new ArrayList<>(8);
 		TableColumn<Member, String> colName = new TableColumn<>(Main.msg.getString("name"));
 		colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		columns.add(colName);
 		TableColumn<Member, String> colGuth = new TableColumn<>(Main.msg.getString("balance"));
 		colGuth.setCellValueFactory(new PropertyValueFactory<>("guthaben"));
+		columns.add(colGuth);
 		TableColumn<Member, String> colAlk = new TableColumn<>(Main.msg.getString("booze"));
 		colAlk.setCellValueFactory(new PropertyValueFactory<>("alk"));
+		columns.add(colAlk);
 		TableColumn<Member, String> colAntalk = new TableColumn<>(Main.msg.getString("nonalcoholics"));
 		colAntalk.setCellValueFactory(new PropertyValueFactory<>("antalk"));
+		columns.add(colAntalk);
 		TableColumn<Member, String> colVisible = new TableColumn<>(Main.msg.getString("visible"));
 		colVisible.setCellValueFactory(new PropertyValueFactory<>("visible"));
+		columns.add(colVisible);
 
-		TableColumn colEinzahlButton = new TableColumn(Main.msg.getString("deposit"));
+		TableColumn<Member, String> colEinzahlButton = new TableColumn<>(Main.msg.getString("deposit"));
 		colEinzahlButton.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+		columns.add(colEinzahlButton);
 
-		TableColumn colTrinkButton = new TableColumn(Main.msg.getString("withdraw"));
+		TableColumn<Member, String> colTrinkButton = new TableColumn<>(Main.msg.getString("withdraw"));
 		colTrinkButton.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+		columns.add(colTrinkButton);
 
-		TableColumn colVisButton = new TableColumn(Main.msg.getString("chvis"));
+		TableColumn<Member, String> colVisButton = new TableColumn<>(Main.msg.getString("chvis"));
 		colVisButton.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+		columns.add(colVisButton);
 
 		Callback<TableColumn<Member, String>, TableCell<Member, String>> cellFactory = new Callback<TableColumn<Member, String>, TableCell<Member, String>>() {
 			@Override
-			public TableCell call(final TableColumn<Member, String> param) {
+			public TableCell<Member, String> call(final TableColumn<Member, String> param) {
 				final TableCell<Member, String> cell = new TableCell<Member, String>() {
-
 					final Button btn = new Button(Main.msg.getString("deposit"));
 
 					@Override
@@ -104,7 +113,7 @@ public class MainWindow extends Stage {
 
 		Callback<TableColumn<Member, String>, TableCell<Member, String>> cellFactory2 = new Callback<TableColumn<Member, String>, TableCell<Member, String>>() {
 			@Override
-			public TableCell call(final TableColumn<Member, String> param) {
+			public TableCell<Member, String> call(final TableColumn<Member, String> param) {
 				final TableCell<Member, String> cell = new TableCell<Member, String>() {
 
 					final Button btn = new Button(Main.msg.getString("withdraw"));
@@ -132,7 +141,7 @@ public class MainWindow extends Stage {
 
 		Callback<TableColumn<Member, String>, TableCell<Member, String>> cellFactoryVis = new Callback<TableColumn<Member, String>, TableCell<Member, String>>() {
 			@Override
-			public TableCell call(final TableColumn<Member, String> param) {
+			public TableCell<Member, String> call(final TableColumn<Member, String> param) {
 				final TableCell<Member, String> cell = new TableCell<Member, String>() {
 
 					final Button btn = new Button(Main.msg.getString("chvis"));
@@ -163,8 +172,7 @@ public class MainWindow extends Stage {
 		colEinzahlButton.setCellFactory(cellFactory);
 		colTrinkButton.setCellFactory(cellFactory2);
 		colVisButton.setCellFactory(cellFactoryVis);
-		retTabView.getColumns().addAll(colName, colGuth, colAlk, colAntalk, colVisible, colEinzahlButton,
-				colTrinkButton, colVisButton);
+		retTabView.getColumns().addAll(columns);
 		return retTabView;
 	}
 
