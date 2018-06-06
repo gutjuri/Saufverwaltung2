@@ -3,5 +3,5 @@
 /build.fxbuild
 /.classpath
 /.project
-
+/data/*
 /.gradle/

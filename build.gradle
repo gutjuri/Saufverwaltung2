@@ -1,9 +1,12 @@
 apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+mainClassName = 'saufverwaltung.control.Main'
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.4'
+	compile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.0'
 }
