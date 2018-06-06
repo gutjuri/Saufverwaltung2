@@ -6,10 +6,11 @@ import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.Localizer;
 import saufverwaltung.view.MainWindow;
 
 /**
- * Hauptfenster mit all dem fancy Zeug (v.a. die gro�e tabelle in der mitte). �bernimmt auch das
+ * Hauptfenster mit all dem fancy Zeug (v.a. die große tabelle in der mitte). �bernimmt auch das
  * Erstellen des Strichlistenfiles.
  * 
  * @author Juri Dispan
@@ -17,11 +18,11 @@ import saufverwaltung.view.MainWindow;
 
 public class Main extends Application {
 
-    static DbConnection dbcon = null;
+    private static DbConnection dbcon = null;
     public static String lang = "de";
     public static String country = "DE";
-    public static ResourceBundle msg;
     static Controller ctl;
+    private Localizer localizer;
 
     public static void main(String[] args) {
         launch(args);
@@ -35,15 +36,13 @@ public class Main extends Application {
             country = args.get(1);
         }
         Locale loc = new Locale(lang, country);
-        msg = ResourceBundle.getBundle("MsgBundle", loc);
+        localizer = new Localizer(ResourceBundle.getBundle("MsgBundle", loc));
         dbcon = new DbConnection();
-        String listpath = "data/strichliste.txt";
-        ctl = new Controller(msg, dbcon, listpath);
+        ctl = new Controller(localizer, dbcon);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        new MainWindow(primaryStage, dbcon, ctl);
+        new MainWindow(primaryStage, dbcon, ctl, localizer);
     }
-
 }

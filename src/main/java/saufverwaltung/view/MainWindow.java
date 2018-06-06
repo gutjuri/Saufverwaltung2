@@ -2,15 +2,11 @@ package saufverwaltung.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,8 +19,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import saufverwaltung.control.Controller;
-import saufverwaltung.control.Main;
 import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.Localizer;
 import saufverwaltung.util.Member;
 import saufverwaltung.util.RefreshingTable;
 
@@ -32,13 +28,14 @@ public class MainWindow extends Stage {
     Controller ctl;
     DbConnection dbcon;
     Image icon;
+    private final Localizer localizer;
 
-    public MainWindow(Stage primaryStage, DbConnection dbcon, Controller ctl) {
+    public MainWindow(Stage primaryStage, DbConnection dbcon, Controller ctl, Localizer localizer) {
         this.dbcon = dbcon;
         this.ctl = ctl;
+        this.localizer = localizer;
         BorderPane bpane = new BorderPane();
         Scene sc = new Scene(bpane, 1000, 600);
-        // System.out.println(getClass().getResource("application.css"));
         sc.getStylesheets().add("application.css");
         icon = new Image("icon.png");
         RefreshingTable mid = addTableView();
@@ -46,7 +43,7 @@ public class MainWindow extends Stage {
         bpane.setLeft(vbox);
         bpane.setCenter(mid);
 
-        primaryStage.setTitle(Main.msg.getString("appname"));
+        primaryStage.setTitle(localizer.getString("appname"));
         primaryStage.setOnCloseRequest(ctl::updateListFile);
         primaryStage.getIcons().add(icon);
         primaryStage.setScene(sc);
@@ -56,144 +53,54 @@ public class MainWindow extends Stage {
     RefreshingTable addTableView() {
         RefreshingTable retTabView = new RefreshingTable(dbcon);
         List<TableColumn<Member, String>> columns = new ArrayList<>(8);
-        TableColumn<Member, String> colName = new TableColumn<>(Main.msg.getString("name"));
+        TableColumn<Member, String> colName = new TableColumn<>(localizer.getString("name"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columns.add(colName);
-        TableColumn<Member, String> colGuth = new TableColumn<>(Main.msg.getString("balance"));
+        TableColumn<Member, String> colGuth = new TableColumn<>(localizer.getString("balance"));
         colGuth.setCellValueFactory(new PropertyValueFactory<>("guthaben"));
         columns.add(colGuth);
-        TableColumn<Member, String> colAlk = new TableColumn<>(Main.msg.getString("booze"));
+        TableColumn<Member, String> colAlk = new TableColumn<>(localizer.getString("booze"));
         colAlk.setCellValueFactory(new PropertyValueFactory<>("alk"));
         columns.add(colAlk);
         TableColumn<Member, String> colAntalk =
-                        new TableColumn<>(Main.msg.getString("nonalcoholics"));
+                        new TableColumn<>(localizer.getString("nonalcoholics"));
         colAntalk.setCellValueFactory(new PropertyValueFactory<>("antalk"));
         columns.add(colAntalk);
-        TableColumn<Member, String> colVisible = new TableColumn<>(Main.msg.getString("visible"));
+        TableColumn<Member, String> colVisible = new TableColumn<>(localizer.getString("visible"));
         colVisible.setCellValueFactory(new PropertyValueFactory<>("visible"));
         columns.add(colVisible);
 
         TableColumn<Member, String> colEinzahlButton =
-                        new TableColumn<>(Main.msg.getString("deposit"));
+                        new TableColumn<>(localizer.getString("deposit"));
         colEinzahlButton.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
         columns.add(colEinzahlButton);
 
         TableColumn<Member, String> colTrinkButton =
-                        new TableColumn<>(Main.msg.getString("withdraw"));
+                        new TableColumn<>(localizer.getString("withdraw"));
         colTrinkButton.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
         columns.add(colTrinkButton);
 
-        TableColumn<Member, String> colVisButton = new TableColumn<>(Main.msg.getString("chvis"));
+        TableColumn<Member, String> colVisButton = new TableColumn<>(localizer.getString("chvis"));
         colVisButton.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
         columns.add(colVisButton);
 
         Callback<TableColumn<Member, String>, TableCell<Member, String>> cellFactory =
-                        new Callback<TableColumn<Member, String>, TableCell<Member, String>>() {
-                            @Override
-                            public TableCell<Member, String> call(
-                                            final TableColumn<Member, String> param) {
-                                final TableCell<Member, String> cell =
-                                                new TableCell<Member, String>() {
-                                                    final Button btn = new Button(
-                                                                    Main.msg.getString("deposit"));
+                        getCellFactory(localizer.getString("deposit"),
+                                        (item, event) -> new DepositWindow(item, dbcon, retTabView,
+                                                        ctl, localizer));
 
-                                                    @Override
-                                                    public void updateItem(String item,
-                                                                    boolean empty) {
-                                                        super.updateItem(item, empty);
-                                                        if (empty) {
-                                                            setGraphic(null);
-                                                            setText(null);
-                                                        } else {
-                                                            btn.setOnAction(event -> {
-                                                                Member person = getTableView()
-                                                                                .getItems()
-                                                                                .get(getIndex());
-                                                                new DepositWindow(person, dbcon,
-                                                                                retTabView, ctl);
-                                                            });
-                                                            setGraphic(btn);
-                                                            setText(null);
-                                                        }
-                                                    }
-                                                };
-                                return cell;
-                            }
-                        };
 
         Callback<TableColumn<Member, String>, TableCell<Member, String>> cellFactory2 =
-                        new Callback<TableColumn<Member, String>, TableCell<Member, String>>() {
-                            @Override
-                            public TableCell<Member, String> call(
-                                            final TableColumn<Member, String> param) {
-                                final TableCell<Member, String> cell =
-                                                new TableCell<Member, String>() {
-
-                                                    final Button btn = new Button(
-                                                                    Main.msg.getString("withdraw"));
-
-                                                    @Override
-                                                    public void updateItem(String item,
-                                                                    boolean empty) {
-                                                        super.updateItem(item, empty);
-                                                        if (empty) {
-                                                            setGraphic(null);
-                                                            setText(null);
-                                                        } else {
-                                                            btn.setOnAction(event -> {
-                                                                Member person = getTableView()
-                                                                                .getItems()
-                                                                                .get(getIndex());
-                                                                new WithdrawWindow(person, dbcon,
-                                                                                retTabView, ctl);
-
-                                                            });
-                                                            setGraphic(btn);
-                                                            setText(null);
-                                                        }
-                                                    }
-                                                };
-                                return cell;
-                            }
-                        };
+                        getCellFactory(localizer.getString("withdraw"),
+                                        (item, event) -> new WithdrawWindow(item, dbcon, retTabView,
+                                                        ctl, localizer));
 
         Callback<TableColumn<Member, String>, TableCell<Member, String>> cellFactoryVis =
-                        new Callback<TableColumn<Member, String>, TableCell<Member, String>>() {
-                            @Override
-                            public TableCell<Member, String> call(
-                                            final TableColumn<Member, String> param) {
-                                final TableCell<Member, String> cell =
-                                                new TableCell<Member, String>() {
-
-                                                    final Button btn = new Button(
-                                                                    Main.msg.getString("chvis"));
-
-                                                    @Override
-                                                    public void updateItem(String item,
-                                                                    boolean empty) {
-                                                        super.updateItem(item, empty);
-                                                        if (empty) {
-                                                            setGraphic(null);
-                                                            setText(null);
-                                                        } else {
-                                                            btn.setOnAction(event -> {
-                                                                Member person = getTableView()
-                                                                                .getItems()
-                                                                                .get(getIndex());
-                                                                person.toggleVisible();
-                                                                dbcon.toggleVisible(
-                                                                                person.getName());
-                                                                retTabView.refresh();
-
-                                                            });
-                                                            setGraphic(btn);
-                                                            setText(null);
-                                                        }
-                                                    }
-                                                };
-                                return cell;
-                            }
-                        };
+                        getCellFactory(localizer.getString("chvis"), (item, event) -> {
+                            item.toggleVisible();
+                            dbcon.toggleVisible(item.getName());
+                            retTabView.refresh();
+                        });
 
         colEinzahlButton.setCellFactory(cellFactory);
         colTrinkButton.setCellFactory(cellFactory2);
@@ -209,80 +116,99 @@ public class MainWindow extends Stage {
         vbox.setPadding(new Insets(15, 12, 15, 12));
         vbox.setSpacing(10);
 
-        Button saveexit = new Button(Main.msg.getString("close"));
+        Button saveexit = new Button(localizer.getString("close"));
         saveexit.setPrefSize(150, 20);
         saveexit.setOnAction(e -> ctl.updateListFileAndClose(e, primaryStage));
 
-        Button impr = new Button(Main.msg.getString("impr"));
+        Button impr = new Button(localizer.getString("impr"));
         impr.setPrefSize(150, 20);
         impr.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                new InfoWindow(ctl);
+                new InfoWindow(ctl, localizer);
             }
         });
 
-        Button del = new Button(Main.msg.getString("delmember"));
+        Button del = new Button(localizer.getString("delmember"));
         del.setPrefSize(150, 20);
         del.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                new DeleteWindow(dbcon, tab, ctl);
+                new DeleteWindow(dbcon, tab, ctl, localizer);
             }
         });
 
-        Button addMember = new Button(Main.msg.getString("addmember"));
+        Button addMember = new Button(localizer.getString("addmember"));
         addMember.setPrefSize(150, 20);
         addMember.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                new AddMemberWindow(dbcon, tab, ctl);
+                new AddMemberWindow(dbcon, tab, ctl, localizer);
             }
         });
 
-        Button renameMember = new Button(Main.msg.getString("rename"));
+        Button renameMember = new Button(localizer.getString("rename"));
         renameMember.setPrefSize(150, 20);
         renameMember.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                new RenameWindow(dbcon, tab, ctl);
+                new RenameWindow(dbcon, tab, ctl, localizer);
             }
         });
+        /*
+         * ComboBox<String> changelang = new ComboBox<>(FXCollections.observableArrayList("Deutsch",
+         * "English")); changelang.setPromptText(localizer.getString("lang"));
+         * changelang.setPrefSize(150, 20); changelang.setOnAction(new EventHandler<ActionEvent>() {
+         * 
+         * @Override public void handle(ActionEvent event) { switch (changelang.getValue()) { case
+         * "Deutsch": Main.lang = "de"; Main.country = "DE"; break; case "English": Main.lang =
+         * "en"; Main.country = "UK"; break; } Locale loc = new Locale(Main.lang, Main.country);
+         * localizer = ResourceBundle.getBundle("MsgBundle", loc);
+         * 
+         * }
+         * 
+         * });
+         */
 
-        ComboBox<String> changelang =
-                        new ComboBox<>(FXCollections.observableArrayList("Deutsch", "English"));
-        changelang.setPromptText(Main.msg.getString("lang"));
-        changelang.setPrefSize(150, 20);
-        changelang.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                switch (changelang.getValue()) {
-                    case "Deutsch":
-                        Main.lang = "de";
-                        Main.country = "DE";
-                        break;
-                    case "English":
-                        Main.lang = "en";
-                        Main.country = "UK";
-                        break;
-                }
-                Locale loc = new Locale(Main.lang, Main.country);
-                Main.msg = ResourceBundle.getBundle("MsgBundle", loc);
-
-            }
-
-        });
-
-        Button open = new Button(Main.msg.getString("openlist"));
+        Button open = new Button(localizer.getString("openlist"));
         open.setPrefSize(150, 20);
         open.setOnAction(ctl::openListFile);
 
         vbox.getChildren().addAll(addMember, del, renameMember, impr, open, saveexit);
         return vbox;
+    }
+
+    private Callback<TableColumn<Member, String>, TableCell<Member, String>> getCellFactory(
+                    String buttonText, OnTableButtonAction<Member> eventHandler) {
+        return (param) -> {
+            final TableCell<Member, String> cell = new TableCell<Member, String>() {
+                final Button btn = new Button(buttonText);
+
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        btn.setOnAction(e -> eventHandler
+                                        .onAction(getTableView().getItems().get(getIndex()), e));
+                        setGraphic(btn);
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+
+        };
+    }
+
+    @FunctionalInterface
+    public static interface OnTableButtonAction<T> {
+        public void onAction(T item, ActionEvent e);
     }
 }
