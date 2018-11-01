@@ -50,7 +50,7 @@ public class MainWindow extends Stage {
         primaryStage.show();
     }
 
-    RefreshingTable addTableView() {
+    private RefreshingTable addTableView() {
         RefreshingTable retTabView = new RefreshingTable(dbcon);
         List<TableColumn<Member, String>> columns = new ArrayList<>(8);
         TableColumn<Member, String> colName = new TableColumn<>(localizer.getString("name"));
@@ -109,7 +109,7 @@ public class MainWindow extends Stage {
         return retTabView;
     }
 
-    VBox addVbox(Stage primaryStage, RefreshingTable tab) {
+    private VBox addVbox(Stage primaryStage, RefreshingTable tab) {
         VBox vbox = new VBox();
 
         vbox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
