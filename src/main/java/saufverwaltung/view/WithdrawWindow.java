@@ -18,7 +18,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import saufverwaltung.control.Controller;
-import saufverwaltung.util.DbConnection_Old;
 import saufverwaltung.util.Localizer;
 import saufverwaltung.util.Member;
 
@@ -29,11 +28,9 @@ import saufverwaltung.util.Member;
  *
  */
 public class WithdrawWindow extends Stage {
-    Controller ctl;
 
-    public WithdrawWindow(Member member, DbConnection_Old dbcon, TableView<Member> retTabView,
-                    Controller ctl, Localizer localizer) {
-        this.ctl = ctl;
+    public WithdrawWindow(Member member, TableView<Member> retTabView, Controller ctl,
+                    Localizer localizer) {
         GridPane mainBox = new GridPane();
         mainBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
         mainBox.setPadding(new Insets(25, 25, 25, 25));

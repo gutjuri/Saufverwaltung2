@@ -10,7 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import saufverwaltung.util.DbConnection_Old;
+import saufverwaltung.util.DbConnection;
 import saufverwaltung.util.ListFileHandler;
 import saufverwaltung.util.Localizer;
 import saufverwaltung.util.Member;
@@ -18,10 +18,10 @@ import saufverwaltung.util.RefreshingTable;
 
 public class Controller {
     private Localizer localizer;
-    private DbConnection_Old dbcon;
+    private DbConnection dbcon;
     private ListFileHandler fileHandler;
 
-    public Controller(Localizer msg, DbConnection_Old dbcon) {
+    public Controller(Localizer msg, DbConnection dbcon) {
         this.localizer = msg;
         this.dbcon = dbcon;
         fileHandler = new ListFileHandler("data/strichliste.txt", msg);
@@ -35,7 +35,7 @@ public class Controller {
             dbcon.updateStats(member.getName(), alk, aalk);
             member.setAlk(member.getAlk() + alk);
             member.setAntalk(member.getAntalk() + aalk);
-            member.setGuthaben(member.getGuthabenNumeric() - aalk - (1.5 * alk));
+            member.setGuthaben(member.getGuthaben() - 100 * aalk - 150 * alk);
             retTabView.refresh();
             stage.close();
         } catch (NumberFormatException e) {
@@ -53,11 +53,7 @@ public class Controller {
     }
 
     private void updateListFile() {
-        try {
-            fileHandler.writeListToFile(dbcon.getMembers());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        fileHandler.writeListToFile(dbcon.getMembers());
     }
 
     public void updateListFile(WindowEvent e) {
@@ -82,7 +78,7 @@ public class Controller {
             if (name.length() > 8 || name.length() < 2 || dbcon.doesMemberExist(name)) {
                 throw new IllegalArgumentException();
             }
-            double startGh = Double.parseDouble(gtext);
+            int startGh = Integer.parseInt(gtext);
             dbcon.createMember(name, startGh);
             tab.refreshFull();
             stage.close();
@@ -136,9 +132,9 @@ public class Controller {
     public void handleDeposit(Stage stage, TextField tf, Member member, TableView<Member> tab) {
         String str = tf.getText().replaceAll(",", ".");
         try {
-            double betr = Double.parseDouble(str);
+            int betr = Integer.parseInt(str);
             dbcon.deposit(member.getName(), betr);
-            member.setGuthaben(member.getGuthabenNumeric() + betr);
+            member.setGuthaben(member.getGuthaben() + betr);
             tab.refresh();
             stage.close();
         } catch (NumberFormatException e) {

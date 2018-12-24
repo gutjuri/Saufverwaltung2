@@ -33,10 +33,8 @@ import saufverwaltung.util.Localizer;
  */
 public class InfoWindow extends Stage {
     static int i = 0;
-    Controller ctl;
 
     public InfoWindow(Controller ctl, Localizer localizer) {
-        this.ctl = ctl;
         Box box = new Box(4, 4, 4);
         box.setMaterial(new PhongMaterial(Color.CHARTREUSE));
         // box.setDrawMode(DrawMode.LINE);

@@ -17,7 +17,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import saufverwaltung.control.Controller;
-import saufverwaltung.util.DbConnection_Old;
 import saufverwaltung.util.Localizer;
 import saufverwaltung.util.RefreshingTable;
 
@@ -29,8 +28,7 @@ import saufverwaltung.util.RefreshingTable;
  */
 public class AddMemberWindow extends Stage {
 
-    public AddMemberWindow(DbConnection_Old dbcon, RefreshingTable tab, Controller ctl,
-                    Localizer localizer) {
+    public AddMemberWindow(RefreshingTable tab, Controller ctl, Localizer localizer) {
         GridPane mainBox = new GridPane();
         Scene sc = new Scene(mainBox, 350, 200);
         sc.getStylesheets().add("application.css");
@@ -73,7 +71,7 @@ public class AddMemberWindow extends Stage {
 
         this.setTitle(localizer.getString("addmember"));
         this.setScene(sc);
-        this.getIcons().add(new Image(getClass().getResourceAsStream("res/icon.png")));
+        this.getIcons().add(new Image(getClass().getResourceAsStream("resources/icon.png")));
         this.show();
 
     }

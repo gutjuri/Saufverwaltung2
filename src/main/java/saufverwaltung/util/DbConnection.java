@@ -43,13 +43,23 @@ public interface DbConnection {
     void deleteMember(String name);
 
     /**
-     * Adds consumed goods to the member.
+     * Adds consumed goods to the member and automatically withdraws from his credits.
      * 
      * @param name The name of the member.
      * @param alk The consumed alk.
      * @param antalk The consumed antalk.
      */
     void updateStats(String name, int alk, int antalk);
+
+
+    /**
+     * Sets the consumed goods of the member without withdrawing from his credits.
+     * 
+     * @param name The name of the member.
+     * @param alk The consumed alk.
+     * @param antalk The consumed antalk.
+     */
+    void setStats(String name, int alk, int antalk);
 
 
     /**

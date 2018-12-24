@@ -70,6 +70,28 @@ public class DbConnection_Old {
     }
 
     /**
+     * Does the table exist?
+     * 
+     * @return true if and only if the table exists.
+     */
+    public boolean doesTableExist() {
+        openConnection();
+
+        boolean exists = true;
+
+        try {
+            st = con.prepareStatement("SELECT * FROM mitglieder");
+            st.executeQuery();
+        } catch (SQLException e) {
+            exists = false;
+        }
+
+        closeConnection();
+
+        return exists;
+    }
+
+    /**
      * Erstellt Mitglied in Datenbank mit spezifiziertem namen und guthaben. Geht mal davon aus,
      * dass kein bereits vorhandener name neu hinzugef�gt wird.
      *
@@ -249,7 +271,7 @@ public class DbConnection_Old {
      * @return
      * @throws SQLException
      */
-    public List<Member> getMembers() throws SQLException {
+    public List<Member> getMembers() {
         openConnection();
         List<Member> retList = new ArrayList<>();
 
@@ -262,10 +284,10 @@ public class DbConnection_Old {
                 int alk = rs.getInt(3);
                 int antalk = rs.getInt(4);
                 boolean show = rs.getBoolean(5);
-                retList.add(new Member(pname, guth, alk, antalk, show));
+                retList.add(new Member(pname, (int) (100 * guth), alk, antalk, show));
             }
         } catch (SQLException e) {
-            throw new SQLException();
+            e.printStackTrace();
         } finally {
             closeConnection();
         }

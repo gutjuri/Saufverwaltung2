@@ -45,7 +45,7 @@ public class HSQLDBConnection implements DbConnection {
     public void createMember(String name, int startCredits) {
         openConnection();
         try {
-            st = con.prepareStatement("INSERT INTO" + tableName
+            st = con.prepareStatement("INSERT INTO " + tableName
                             + "(name, guthaben, alk, antalk, show) VALUES (?, ?, 0, 0, true)");
             st.setString(1, name);
             st.setDouble(2, startCredits);
@@ -132,7 +132,7 @@ public class HSQLDBConnection implements DbConnection {
             st.executeUpdate();
 
             st = con.prepareStatement("UPDATE " + tableName
-                            + " SET guthaben = guthaben-(1.5*?) WHERE name = ?");
+                            + " SET guthaben = guthaben-(150*?) WHERE name = ?");
             st.setInt(1, alk);
             st.setString(2, name);
             st.executeUpdate();
@@ -143,11 +143,35 @@ public class HSQLDBConnection implements DbConnection {
             st.setString(2, name);
             st.executeUpdate();
 
-            st = con.prepareStatement(
-                            "UPDATE " + tableName + " SET guthaben = guthaben-? WHERE name = ?");
+            st = con.prepareStatement("UPDATE " + tableName
+                            + " SET guthaben = guthaben-(100*?) WHERE name = ?");
             st.setInt(1, antalk);
             st.setString(2, name);
             st.executeUpdate();
+
+        } catch (SQLException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        closeConnection();
+
+    }
+
+    @Override
+    public void setStats(String name, int alk, int antalk) {
+        openConnection();
+
+        try {
+            st = con.prepareStatement("UPDATE " + tableName + " SET alk = ? WHERE name = ?");
+            st.setInt(1, alk);
+            st.setString(2, name);
+            st.executeUpdate();
+
+            st = con.prepareStatement("UPDATE " + tableName + " SET antalk = ? WHERE name = ?");
+            st.setInt(1, antalk);
+            st.setString(2, name);
+            st.executeUpdate();
+
 
         } catch (SQLException e1) {
             // TODO Auto-generated catch block
@@ -164,7 +188,7 @@ public class HSQLDBConnection implements DbConnection {
         StringBuilder sb = new StringBuilder();
 
         try {
-            st = con.prepareStatement("SELECT * FROM" + tableName);
+            st = con.prepareStatement("SELECT * FROM " + tableName);
             rs = st.executeQuery();
             sb.append(String.format("%-10s | %-15s | %-15s | %-15s | %-15s", "name", "guthaben",
                             "alk", "antalk", "show"));
@@ -195,7 +219,7 @@ public class HSQLDBConnection implements DbConnection {
         boolean exists = true;
 
         try {
-            st = con.prepareStatement("SELECT * FROM" + tableName);
+            st = con.prepareStatement("SELECT * FROM " + tableName);
             st.executeQuery();
         } catch (SQLException e) {
             exists = false;
@@ -228,11 +252,11 @@ public class HSQLDBConnection implements DbConnection {
         List<Member> retList = new ArrayList<>();
 
         try {
-            st = con.prepareStatement("SELECT * FROM" + tableName);
+            st = con.prepareStatement("SELECT * FROM " + tableName);
             rs = st.executeQuery();
             while (rs.next()) {
                 String pname = rs.getString(1);
-                double guth = rs.getDouble(2);
+                int guth = rs.getInt(2);
                 int alk = rs.getInt(3);
                 int antalk = rs.getInt(4);
                 boolean show = rs.getBoolean(5);

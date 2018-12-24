@@ -5,8 +5,11 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import saufverwaltung.util.DbConnection;
 import saufverwaltung.util.DbConnection_Old;
+import saufverwaltung.util.HSQLDBConnection;
 import saufverwaltung.util.Localizer;
+import saufverwaltung.util.Member;
 import saufverwaltung.view.MainWindow;
 
 /**
@@ -18,7 +21,7 @@ import saufverwaltung.view.MainWindow;
 
 public class Main extends Application {
 
-    private static DbConnection_Old dbcon = null;
+    private DbConnection dbcon = null;
     public static String lang = "de";
     public static String country = "DE";
     static Controller ctl;
@@ -37,12 +40,38 @@ public class Main extends Application {
         }
         Locale loc = new Locale(lang, country);
         localizer = new Localizer(ResourceBundle.getBundle("MsgBundle", loc));
-        dbcon = new DbConnection_Old();
+
+        dbcon = initDatabase();
+
+
         ctl = new Controller(localizer, dbcon);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         new MainWindow(primaryStage, dbcon, ctl, localizer);
+    }
+
+    private DbConnection initDatabase() {
+        DbConnection dbcon = new HSQLDBConnection();
+
+        if (!dbcon.doesTableExist()) {
+            DbConnection_Old old = new DbConnection_Old();
+            dbcon.createEmptyTable();
+
+            if (old.doesTableExist()) {
+                List<Member> members = old.getMembers();
+
+                members.forEach(member -> {
+                    dbcon.createMember(member.getName(), member.getGuthaben());
+                    dbcon.setStats(member.getName(), member.getAlk(), member.getAntalk());
+                    if (!member.isVisible()) {
+                        dbcon.toggleVisible(member.getName());
+                    }
+                });
+            }
+        }
+
+        return dbcon;
     }
 }

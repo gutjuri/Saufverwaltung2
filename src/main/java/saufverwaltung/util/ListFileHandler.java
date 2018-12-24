@@ -43,11 +43,11 @@ public class ListFileHandler {
                 if (!cm.isVisible()) {
                     continue;
                 }
-                if (cm.getGuthabenNumeric() < 0) {
+                if (cm.getGuthaben() < 0) {
                     w.write(cm.getName() + "\t | " + blocked + " \t \t       | " + blocked
-                                    + "\t\t    | " + cm.getGuthaben());
+                                    + "\t\t    | " + cm.getGuthabenFormatted());
                 } else {
-                    w.write(cm.getName() + "\t | \t \t \t       | \t\t\t    | " + cm.getGuthaben());
+                    w.write(cm.getName() + "\t | \t \t \t       | \t\t\t    | " + cm.getGuthabenFormatted());
                 }
 
                 w.newLine();

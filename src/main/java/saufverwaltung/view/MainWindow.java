@@ -19,18 +19,18 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import saufverwaltung.control.Controller;
-import saufverwaltung.util.DbConnection_Old;
+import saufverwaltung.util.DbConnection;
 import saufverwaltung.util.Localizer;
 import saufverwaltung.util.Member;
 import saufverwaltung.util.RefreshingTable;
 
 public class MainWindow extends Stage {
     Controller ctl;
-    DbConnection_Old dbcon;
+    DbConnection dbcon;
     Image icon;
     private final Localizer localizer;
 
-    public MainWindow(Stage primaryStage, DbConnection_Old dbcon, Controller ctl, Localizer localizer) {
+    public MainWindow(Stage primaryStage, DbConnection dbcon, Controller ctl, Localizer localizer) {
         this.dbcon = dbcon;
         this.ctl = ctl;
         this.localizer = localizer;
@@ -86,14 +86,14 @@ public class MainWindow extends Stage {
 
         Callback<TableColumn<Member, String>, TableCell<Member, String>> cellFactory =
                         getCellFactory(localizer.getString("deposit"),
-                                        (item, event) -> new DepositWindow(item, dbcon, retTabView,
-                                                        ctl, localizer));
+                                        (item, event) -> new DepositWindow(item, retTabView, ctl,
+                                                        localizer));
 
 
         Callback<TableColumn<Member, String>, TableCell<Member, String>> cellFactory2 =
                         getCellFactory(localizer.getString("withdraw"),
-                                        (item, event) -> new WithdrawWindow(item, dbcon, retTabView,
-                                                        ctl, localizer));
+                                        (item, event) -> new WithdrawWindow(item, retTabView, ctl,
+                                                        localizer));
 
         Callback<TableColumn<Member, String>, TableCell<Member, String>> cellFactoryVis =
                         getCellFactory(localizer.getString("chvis"), (item, event) -> {
@@ -136,7 +136,7 @@ public class MainWindow extends Stage {
 
             @Override
             public void handle(ActionEvent event) {
-                new DeleteWindow(dbcon, tab, ctl, localizer);
+                new DeleteWindow(tab, ctl, localizer);
             }
         });
 
@@ -146,7 +146,7 @@ public class MainWindow extends Stage {
 
             @Override
             public void handle(ActionEvent event) {
-                new AddMemberWindow(dbcon, tab, ctl, localizer);
+                new AddMemberWindow(tab, ctl, localizer);
             }
         });
 
@@ -156,7 +156,7 @@ public class MainWindow extends Stage {
 
             @Override
             public void handle(ActionEvent event) {
-                new RenameWindow(dbcon, tab, ctl, localizer);
+                new RenameWindow(tab, ctl, localizer);
             }
         });
         /*
