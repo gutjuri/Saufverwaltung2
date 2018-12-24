@@ -25,7 +25,7 @@ public class Member {
     }
 
     public String getGuthabenFormatted() {
-        return String.format("%.2f", getGuthaben());
+        return guthaben / 100 + "," + guthaben % 100;
     }
 
     public int getGuthaben() {
