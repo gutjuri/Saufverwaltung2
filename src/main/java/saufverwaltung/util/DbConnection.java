@@ -55,12 +55,12 @@ public interface DbConnection {
     /**
      * Returns a string representation of the database's contents, mainly for debugging purposes.
      */
-    String getAllMembers();
+    String getMembersString();
 
     /**
      * Does a members table exist?
      */
-    void doesTableExist();
+    boolean doesTableExist();
 
     /**
      * creates an empty table in the database.
