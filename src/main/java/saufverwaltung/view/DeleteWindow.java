@@ -17,7 +17,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import saufverwaltung.control.Controller;
-import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.DbConnection_Old;
 import saufverwaltung.util.Localizer;
 import saufverwaltung.util.RefreshingTable;
 
@@ -30,7 +30,7 @@ import saufverwaltung.util.RefreshingTable;
 public class DeleteWindow extends Stage {
     Controller ctl;
 
-    public DeleteWindow(DbConnection dbcon, RefreshingTable tab, Controller ctl,
+    public DeleteWindow(DbConnection_Old dbcon, RefreshingTable tab, Controller ctl,
                     Localizer localizer) {
         this.ctl = ctl;
         GridPane mainBox = new GridPane();

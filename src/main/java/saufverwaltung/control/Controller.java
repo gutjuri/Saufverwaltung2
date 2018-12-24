@@ -10,7 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.DbConnection_Old;
 import saufverwaltung.util.ListFileHandler;
 import saufverwaltung.util.Localizer;
 import saufverwaltung.util.Member;
@@ -18,10 +18,10 @@ import saufverwaltung.util.RefreshingTable;
 
 public class Controller {
     private Localizer localizer;
-    private DbConnection dbcon;
+    private DbConnection_Old dbcon;
     private ListFileHandler fileHandler;
 
-    public Controller(Localizer msg, DbConnection dbcon) {
+    public Controller(Localizer msg, DbConnection_Old dbcon) {
         this.localizer = msg;
         this.dbcon = dbcon;
         fileHandler = new ListFileHandler("data/strichliste.txt", msg);
@@ -127,7 +127,7 @@ public class Controller {
         Member cmember = cbox.getValue();
         String oldname = cmember.getName();
         String newname = tfield.getText();
-        dbcon.renameUser(oldname, newname);
+        dbcon.renameMember(oldname, newname);
         cmember.setName(newname);
         retTabView.refresh();
         stage.close();

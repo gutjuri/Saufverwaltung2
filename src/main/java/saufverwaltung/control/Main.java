@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.DbConnection_Old;
 import saufverwaltung.util.Localizer;
 import saufverwaltung.view.MainWindow;
 
@@ -18,7 +18,7 @@ import saufverwaltung.view.MainWindow;
 
 public class Main extends Application {
 
-    private static DbConnection dbcon = null;
+    private static DbConnection_Old dbcon = null;
     public static String lang = "de";
     public static String country = "DE";
     static Controller ctl;
@@ -37,7 +37,7 @@ public class Main extends Application {
         }
         Locale loc = new Locale(lang, country);
         localizer = new Localizer(ResourceBundle.getBundle("MsgBundle", loc));
-        dbcon = new DbConnection();
+        dbcon = new DbConnection_Old();
         ctl = new Controller(localizer, dbcon);
     }
 

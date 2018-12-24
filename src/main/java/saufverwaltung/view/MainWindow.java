@@ -19,18 +19,18 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import saufverwaltung.control.Controller;
-import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.DbConnection_Old;
 import saufverwaltung.util.Localizer;
 import saufverwaltung.util.Member;
 import saufverwaltung.util.RefreshingTable;
 
 public class MainWindow extends Stage {
     Controller ctl;
-    DbConnection dbcon;
+    DbConnection_Old dbcon;
     Image icon;
     private final Localizer localizer;
 
-    public MainWindow(Stage primaryStage, DbConnection dbcon, Controller ctl, Localizer localizer) {
+    public MainWindow(Stage primaryStage, DbConnection_Old dbcon, Controller ctl, Localizer localizer) {
         this.dbcon = dbcon;
         this.ctl = ctl;
         this.localizer = localizer;

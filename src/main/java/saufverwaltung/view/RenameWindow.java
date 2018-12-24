@@ -19,7 +19,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import saufverwaltung.control.Controller;
-import saufverwaltung.util.DbConnection;
+import saufverwaltung.util.DbConnection_Old;
 import saufverwaltung.util.Localizer;
 import saufverwaltung.util.Member;
 
@@ -32,7 +32,7 @@ import saufverwaltung.util.Member;
 public class RenameWindow extends Stage {
     Controller ctl;
 
-    public RenameWindow(DbConnection dbcon, TableView<Member> retTabView, Controller ctl,
+    public RenameWindow(DbConnection_Old dbcon, TableView<Member> retTabView, Controller ctl,
                     Localizer localizer) {
         this.ctl = ctl;
         GridPane mainBox = new GridPane();

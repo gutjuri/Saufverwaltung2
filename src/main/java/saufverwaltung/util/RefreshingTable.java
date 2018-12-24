@@ -6,10 +6,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 
 public class RefreshingTable extends TableView<Member> {
-	DbConnection dbcon;
+	DbConnection_Old dbcon;
 	ObservableList<Member> obslist = null;
 
-	public RefreshingTable(DbConnection dbcon) {
+	public RefreshingTable(DbConnection_Old dbcon) {
 		super();
 		this.dbcon = dbcon;
 		refreshObsList();
