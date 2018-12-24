@@ -95,7 +95,7 @@ public class InfoWindow extends Stage {
 
         this.setTitle(localizer.getString("impr"));
         this.setScene(sc);
-        this.getIcons().add(new Image(getClass().getResourceAsStream("res/icon.png")));
+        this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
         this.show();
 
     }

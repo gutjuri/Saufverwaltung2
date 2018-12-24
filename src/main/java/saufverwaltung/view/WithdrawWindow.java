@@ -69,7 +69,7 @@ public class WithdrawWindow extends Stage {
         Scene sc = new Scene(mainBox, 350, 200);
         this.setTitle(localizer.getString("withdraw"));
         this.setScene(sc);
-        this.getIcons().add(new Image(getClass().getResourceAsStream("res/icon.png")));
+        this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
         this.show();
 
     }

@@ -66,7 +66,7 @@ public class DepositWindow extends Stage {
         Scene sc = new Scene(mainBox, 350, 150);
         this.setTitle("Einzahlen");
         this.setScene(sc);
-        this.getIcons().add(new Image(getClass().getResourceAsStream("res/icon.png")));
+        this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
         this.show();
     }
 }

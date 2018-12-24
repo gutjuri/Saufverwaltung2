@@ -71,7 +71,7 @@ public class AddMemberWindow extends Stage {
 
         this.setTitle(localizer.getString("addmember"));
         this.setScene(sc);
-        this.getIcons().add(new Image(getClass().getResourceAsStream("resources/icon.png")));
+        this.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
         this.show();
 
     }
