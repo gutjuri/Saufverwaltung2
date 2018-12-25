@@ -25,7 +25,10 @@ public class Member {
     }
 
     public String getGuthabenFormatted() {
-        return guthaben / 100 + "," + guthaben % 100;
+        int euros = Math.abs(guthaben) / 100;
+        int cents = Math.abs(guthaben) % 100;
+
+        return (guthaben < 0 ? "-" : "") + euros + "," + (cents < 10 ? "0" : "") + cents;
     }
 
     public int getGuthaben() {

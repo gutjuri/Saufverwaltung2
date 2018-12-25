@@ -17,7 +17,7 @@ public class ListFileHandler {
     private final String path;
     private final Localizer msg;
 
-    private final List<Integer> colWidths = Arrays.asList(9, 27, 27, 8);
+    private final List<Integer> colWidths = Arrays.asList(9, 27, 27, 9);
     private final String lineSeparator = times("-", colWidths.get(0)) + "+"
                     + times("-", colWidths.get(1) + 1) + "+" + times("-", colWidths.get(2) + 1)
                     + "+" + times("-", colWidths.get(3));

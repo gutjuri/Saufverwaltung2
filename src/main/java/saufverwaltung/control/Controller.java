@@ -71,14 +71,12 @@ public class Controller {
 
     public void handleAddMember(Stage stage, TextField depositField, TextField nameField,
                     RefreshingTable tab) {
-        String gtext = depositField.getText().replaceAll(",", ".");
         try {
-
             String name = nameField.getText().trim();
             if (name.length() > 8 || name.length() < 2 || dbcon.doesMemberExist(name)) {
                 throw new IllegalArgumentException();
             }
-            int startGh = Integer.parseInt(gtext);
+            int startGh = parseCredit(depositField.getText());
             dbcon.createMember(name, startGh);
             tab.refreshFull();
             stage.close();
@@ -86,7 +84,8 @@ public class Controller {
         } catch (NumberFormatException e) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle(localizer.getString("error"));
-            alert.setHeaderText("\"" + gtext + "\"" + localizer.getString("isnonum") + ".");
+            alert.setHeaderText("\"" + depositField.getText() + "\""
+                            + localizer.getString("isnonum") + ".");
             alert.setContentText(localizer.getString("plsnum") + ".");
             alert.showAndWait();
         } catch (IllegalArgumentException e) {
@@ -130,9 +129,8 @@ public class Controller {
     }
 
     public void handleDeposit(Stage stage, TextField tf, Member member, TableView<Member> tab) {
-        String str = tf.getText().replaceAll(",", ".");
         try {
-            int betr = Integer.parseInt(str);
+            int betr = parseCredit(tf.getText());
             dbcon.deposit(member.getName(), betr);
             member.setGuthaben(member.getGuthaben() + betr);
             tab.refresh();
@@ -140,7 +138,7 @@ public class Controller {
         } catch (NumberFormatException e) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle(localizer.getString("error"));
-            alert.setHeaderText("\"" + str + "\" " + localizer.getString("isnonum") + ".");
+            alert.setHeaderText("\"" + tf.getText() + "\" " + localizer.getString("isnonum") + ".");
             alert.setContentText(localizer.getString("plsnum") + ".");
             alert.showAndWait();
         }
@@ -152,5 +150,12 @@ public class Controller {
         } else {
             label.setText("by Juri Dispan 2017");
         }
+    }
+
+    private int parseCredit(String str) {
+        str = str.replaceAll(",", ".");
+        return str.contains(".") ? (int) (Double.parseDouble(str) * 100)
+                        : Integer.parseInt(str) * 100;
+
     }
 }

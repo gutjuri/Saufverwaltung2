@@ -2,6 +2,7 @@ package saufverwaltung.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -57,7 +58,8 @@ public class MainWindow extends Stage {
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columns.add(colName);
         TableColumn<Member, String> colGuth = new TableColumn<>(localizer.getString("balance"));
-        colGuth.setCellValueFactory(new PropertyValueFactory<>("guthaben"));
+        colGuth.setCellValueFactory(member -> new SimpleStringProperty(
+                        member.getValue().getGuthabenFormatted()));
         columns.add(colGuth);
         TableColumn<Member, String> colAlk = new TableColumn<>(localizer.getString("booze"));
         colAlk.setCellValueFactory(new PropertyValueFactory<>("alk"));
