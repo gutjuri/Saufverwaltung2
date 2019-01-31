@@ -31,7 +31,7 @@ public class DeleteWindow extends Stage {
     public DeleteWindow(RefreshingTable tab, Controller ctl, Localizer localizer) {
         GridPane mainBox = new GridPane();
         Scene sc = new Scene(mainBox, 350, 140);
-        sc.getStylesheets().add((getClass().getResource("application.css").toString()));
+        sc.getStylesheets().add("application.css");
 
         mainBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, null, null)));
         mainBox.setPadding(new Insets(25, 25, 25, 25));
