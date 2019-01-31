@@ -36,5 +36,5 @@ Josef    |                            |                            |    1,50€
 
 ## Business partners
 
-This application is currently in (more or less) productive use by the "Verein zur Förderung der offenen Jugendarbeit Blaubeuren e.V.", which is a german non-profit organization.
+This application is currently in (more or less) productive use by the [Verein zur Förderung der offenen Jugendarbeit Blaubeuren e.V.](https://www.facebook.com/JuHaBlb/), which is a german non-profit organization.
 
