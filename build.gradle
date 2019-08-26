@@ -1,7 +1,18 @@
+plugins {
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'application'
 mainClassName = 'saufverwaltung.control.Main'
+
+javafx {
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+
+
 
 repositories {
 	mavenCentral()

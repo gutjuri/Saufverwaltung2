@@ -2,6 +2,6 @@
 /build/
 /build.fxbuild
 /data/*
-/.gradle/
 icon.png
 /Thumbs.db
+/.gradle/

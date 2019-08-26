@@ -1,8 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry path="bin" kind="output"/>
-	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="src/main/resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/"/>
-	<classpathentry sourcepath="C:/Users/Juri/.gradle/caches/modules-2/files-2.1/org.hsqldb/hsqldb/2.4.0/a9174917777d96078daaa3b519088fe9ebc7b40e/hsqldb-2.4.0-sources.jar" kind="lib" path="C:/Users/Juri/.gradle/caches/modules-2/files-2.1/org.hsqldb/hsqldb/2.4.0/195957160ed990dbc798207c0d577280d9919208/hsqldb-2.4.0.jar"/>
+	<classpathentry output="bin/main" kind="src" path="src/main/java">
+		<attributes>
+			<attribute name="gradle_scope" value="main"/>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry output="bin/main" kind="src" path="src/main/resources">
+		<attributes>
+			<attribute name="gradle_scope" value="main"/>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry kind="output" path="bin/default"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11/"/>
+	<classpathentry sourcepath="/home/juri/.gradle/caches/modules-2/files-2.1/org.hsqldb/hsqldb/2.4.0/a9174917777d96078daaa3b519088fe9ebc7b40e/hsqldb-2.4.0-sources.jar" kind="lib" path="/home/juri/.gradle/caches/modules-2/files-2.1/org.hsqldb/hsqldb/2.4.0/195957160ed990dbc798207c0d577280d9919208/hsqldb-2.4.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-fxml/12.0.1/cef7346264945c58e3710955b176c799e0d435d3/javafx-fxml-12.0.1-sources.jar" kind="lib" path="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-fxml/12.0.1/5c59cdc89fecc71f9392a03b5b19db906af063b0/javafx-fxml-12.0.1-linux.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/12.0.1/56cf8664da8de1b8e06efa227920740cf5c9a671/javafx-controls-12.0.1-sources.jar" kind="lib" path="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/12.0.1/705ca40565f7cff44fbd6aeae1876de06975bc8c/javafx-controls-12.0.1-linux.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/12.0.1/56cf8664da8de1b8e06efa227920740cf5c9a671/javafx-controls-12.0.1-sources.jar" kind="lib" path="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/12.0.1/a6502999bdb947885c8d121a47d745d52a06577a/javafx-controls-12.0.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/12.0.1/eb2eebbd957e5519332cec722ccf485674d65b4a/javafx-graphics-12.0.1-sources.jar" kind="lib" path="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/12.0.1/16cecc736fb34c555b7bd669a89820b9d0fce3f/javafx-graphics-12.0.1-linux.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/12.0.1/eb2eebbd957e5519332cec722ccf485674d65b4a/javafx-graphics-12.0.1-sources.jar" kind="lib" path="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/12.0.1/19ec56a15d7dd9c49112912547425b718485d7db/javafx-graphics-12.0.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/12.0.1/eb73441f6bc350c75995da1e64396be5f6d61fde/javafx-base-12.0.1-sources.jar" kind="lib" path="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/12.0.1/bacd11da7c8f80868508aaa89b8b22c282dddaf7/javafx-base-12.0.1-linux.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/12.0.1/eb73441f6bc350c75995da1e64396be5f6d61fde/javafx-base-12.0.1-sources.jar" kind="lib" path="/home/juri/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/12.0.1/6abae81d00e0c6f4fde02e2666f9c0b989ff47e4/javafx-base-12.0.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
 </classpath>
